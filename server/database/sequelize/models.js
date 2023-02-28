@@ -1,19 +1,23 @@
-import User from './models/User';
-import Client from './models/Client';
-import ClientAccount from './models/ClientAccount';
-import ClientDetail from './models/ClientDetail';
-import Game from './models/Game';
-import Category from './models/Category';
-import Bank from './models/Bank';
-import BankBranch from './models/BankBranch';
-import Payment from './models/Payment';
-import PaymentInstruction from './models/PaymentInstruction';
+import User from './models/User.js';
+import UserDetail from './models/UserDetail.js';
+import Client from './models/Client.js';
+import ClientAccount from './models/ClientAccount.js';
+import ClientDetail from './models/ClientDetail.js';
+import Game from './models/Game.js';
+import Category from './models/Category.js';
+import Bank from './models/Bank.js';
+import BankBranch from './models/BankBranch.js';
+import Payment from './models/Payment.js';
+import PaymentInstruction from './models/PaymentInstruction.js';
 
 Client.hasOne(ClientDetail, { foreignKey: 'client_id' });
 ClientDetail.belongsTo(Client);
 
 Client.hasMany(ClientAccount, { foreignKey: 'client_id' });
 ClientAccount.belongsTo(Client);
+
+User.hasOne(UserDetail, { foreignKey: 'user_id' });
+UserDetail.belongsTo(User);
 
 Bank.hasMany(BankBranch, { foreignKey: 'bank_id' });
 BankBranch.belongsTo(Bank);
@@ -28,8 +32,9 @@ PaymentInstruction.hasOne(Payment, { foreignKey: 'payment_instruction_id' });
 Payment.belongsTo(PaymentInstruction);
 
 
-export default {
+export {
     User,
+    UserDetail,
     Client,
     ClientAccount,
     ClientDetail,
