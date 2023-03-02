@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<%- include('./partials/styles') %>
+
+</head>
+<body>
+    <div class="email-wrapper">
+
+		<div class="email-body">
+
+			<%- include('./partials/header') -%>
+
+			<div class="email-description">
+
+				<p>Dear <%= username -%>,</p>
+
+				<h2 style="line-height:1.75em;">Welcome to game shop!!</h2>
+
+				<p>Please confirm your email by clicking on the link provided below.</p>
+
+				<a href=<%= email_confirmation_link -%> target="_blank">
+					<%= email_confirmation_link -%>
+				</a>
+
+				<% if (expiresAfter) { %>
+					<p><strong>Note: </strong> This link expires after <%= expiresAfter -%></p>
+				<% } %>
+
+				<p style="margin-top:45px;">
+					Regards,<br>
+					Game Shop
+				</p>
+
+			</div>
+			
+			<%- include('./partials/footer') -%>
+
+		</div>
+		
+    </div>
+
+</body>
+</html>
