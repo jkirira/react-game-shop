@@ -8,7 +8,7 @@ const UserDetail = sequelize.define('UserDetail', {
         primaryKey: true
     },
     first_name: DataTypes.STRING,
-    last_number: DataTypes.STRING,
+    last_name: DataTypes.STRING,
     phone_number: DataTypes.STRING,
     physical_address: DataTypes.TEXT,
     gender: DataTypes.STRING,
