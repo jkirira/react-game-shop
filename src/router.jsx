@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
+import ConfirmEmail from './pages/ConfirmEmail'
 
 const browserRouter = createBrowserRouter([
 	{
@@ -25,6 +26,10 @@ const browserRouter = createBrowserRouter([
             {
                 path: 'forgot-password',
                 element: <ForgotPassword />
+            },
+            {
+                path: 'confirm-email',
+                element: <ConfirmEmail />
             }
         ]
 	},

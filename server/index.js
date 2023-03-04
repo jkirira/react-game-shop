@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import { login, signUp } from './controllers/authController.js';
+import { confirmEmail, login, signUp } from './controllers/authController.js';
 
 dotenv.config();
 
@@ -21,6 +21,8 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 app.post('/api/login', login)
 
 app.post('/api/sign-up', signUp)
+
+app.post('/api/confirm-email', confirmEmail)
 
 app.get('/*', (req, res) => {
     console.log('here');

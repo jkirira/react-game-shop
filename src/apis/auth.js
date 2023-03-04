@@ -13,3 +13,7 @@ export const signUpApi = function (data, options = {}) {
 export const forgotPasswordApi = function (data, options = {}) {
     return axios.post(`${BASE_API_URL}/forgot-password`, data, options);
 }
+
+export const emailConfirmationApi = function (data, options = {}) {
+    return axios.post(`${BASE_API_URL}/confirm-email`, data, options);
+}
