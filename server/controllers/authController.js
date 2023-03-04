@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { formatDuration } from 'date-fns';
+import { formatDuration, formatISO9075 } from 'date-fns';
 
 import sequelize from '../config/database.js';
 import { sendEmailConfirmation } from '../controllers/mailController.js';
@@ -81,7 +81,40 @@ const confirmEmail = async (req, res) => {
         return res.status(400).json({type: 'error', message: "That email is already confirmed!"});
     }
 
-    return res.status(200).json({type: 'success',  message: 'Please complete registration to access your account.'});
+    return res.status(200).json({type: 'success',  message: 'Please complete registration to access your account.', data: { email: client_details.email }});
+
+}
+
+const completeRegistration = async (req, res) => {
+    let data = req.body;
+
+    if (!data['username'] || !data['email'] || !data['password']) {
+       return res.status(400).json({type: 'error',  message: 'Please fill all values.'});
+    }
+
+    let existingUser = await Client.findOne({ where: { email: data['email'] } });
+
+    if(!!existingUser) {
+        return res.status(400).json({type: 'error', message: "That email is already taken!"});
+    }
+
+    const hashed_password = bcrypt.hashSync(data['password'], 10);
+
+    await Client.create({
+        username: data['username'],
+        email: data['email'],
+        password: hashed_password,
+        last_login: formatISO9075(new Date()),
+    })
+    .then(client => {
+        const hours_to_expiry = 3;
+        const token = jwt.sign({ id: client.id }, process.env.JWT_TOKEN_SECRET, { expiresIn: (hours_to_expiry * 60 * 60) });
+        return res.status(200).json({type: 'success',  message: 'User account successfully created.', data: { token: token }});
+    })
+    .catch(error => {
+        console.log('error', error);
+        return res.status(400).json({type: 'error',  message: 'Something went wrong. Could not complete registration.'});
+    })
 
 }
 
@@ -92,5 +125,6 @@ const confirmPassword = async () => {
 export {
     login,
     signUp,
-    confirmEmail
+    confirmEmail,
+    completeRegistration
 }

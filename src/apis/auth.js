@@ -17,3 +17,7 @@ export const forgotPasswordApi = function (data, options = {}) {
 export const emailConfirmationApi = function (data, options = {}) {
     return axios.post(`${BASE_API_URL}/confirm-email`, data, options);
 }
+
+export const completeRegistrationApi = function (data, options = {}) {
+    return axios.post(`${BASE_API_URL}/complete-registration`, data, options);
+}

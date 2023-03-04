@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import { confirmEmail, login, signUp } from './controllers/authController.js';
+import { completeRegistration, confirmEmail, login, signUp } from './controllers/authController.js';
 
 dotenv.config();
 
@@ -23,6 +23,8 @@ app.post('/api/login', login)
 app.post('/api/sign-up', signUp)
 
 app.post('/api/confirm-email', confirmEmail)
+
+app.post('/api/complete-registration', completeRegistration)
 
 app.get('/*', (req, res) => {
     console.log('here');
