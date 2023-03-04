@@ -3,43 +3,30 @@ import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-
-const passwordRegex = new RegExp(/^[a-z0-9]+$/i);
-
-
 function LoginForm({type, handleFormSubmit}) {
 
     const navigate = useNavigate();
-
+    const submitButtonRef = useRef(null);
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
 
     const [password, setPassword] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
 
+        submitButtonRef.current.disabled = true;
+
         const form_data = {};
 
-        if(!isValidPassword() || !isValidPasswordConfirmation()) {
-            return false;
-        }
-
-        if(type=='login' || type=='sign_up') {
+        if(type=='login') {
             form_data['username'] = usernameRef?.current?.value
             form_data['password'] = password
         }
 
-        if(type=='sign_up') {
-            form_data['password_confirmation'] = passwordConfirmation
-            form_data['email'] = emailRef?.current?.value
-        }
-
-
-        if(type=='password_reset') {
+        if(type=='password_reset' || type=='sign_up') {
             form_data['email'] = emailRef?.current?.value
         }
 
@@ -59,44 +46,20 @@ function LoginForm({type, handleFormSubmit}) {
     }
 
 
-    // const isValidPasswordConfirmation = () => {
-    //     return password === passwordConfirmation;
-    // }
-
-
-
     return (
         <>
             <Form onSubmit={handleSubmit}>
 
                 {
-                    (type=='login' || type=='sign_up')
+                    (type=='login')
 
                     &&
 
-                    <Form.Group className="mb-3" controlId="usernameInput">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control ref={usernameRef} required type="username" placeholder="" />
-                    </Form.Group>
-                }
-
-
-                {
-                    (type=='password_reset' || type=='sign_up')
-                    
-                    &&
-                    
-                    <Form.Group className="mb-3" controlId="emailInput">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control ref={emailRef} required type="email" placeholder="name@example.com" />
-                    </Form.Group>
-                }
-
-                
-                {
-                    (type=='login' || type=='sign_up')
-
-                    &&
+                    <>
+                        <Form.Group className="mb-3" controlId="usernameInput">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control ref={usernameRef} required type="username" placeholder="" />
+                        </Form.Group>
 
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor="loginPasswordInput">Password</Form.Label>
@@ -117,37 +80,23 @@ function LoginForm({type, handleFormSubmit}) {
                             { password && <Form.Control.Feedback type="invalid">Please provide a valid password.</Form.Control.Feedback> }
 
                         </Form.Group>
+                    </>
                 }
 
 
                 {
-                    (type=='sign_up')
-
+                    (type=='password_reset' || type=='sign_up')
+                    
                     &&
-
-                        <Form.Group className="mb-3">
-                            <Form.Label htmlFor="loginPasswordConfirmation">Confirm Password</Form.Label>
-                            <Form.Control
-                                id="loginPasswordConfirmation" 
-                                value={passwordConfirmation}
-                                onChange={(e) => setPasswordConfirmation(e.target.value)}
-                                isValid={password === passwordConfirmation}
-                                isInvalid={password !== passwordConfirmation}
-                                disabled={!password}
-                                type="password" 
-                                aria-describedby="loginPasswordConfirmationHelpBlock" 
-                                required 
-                            />
-                            <Form.Text id="loginPasswordConfirmationHelpBlock" muted>
-                                Please confirm your password.
-                            </Form.Text>
-                            <Form.Control.Feedback type="invalid">
-                                Password confirmation do not match.
-                            </Form.Control.Feedback>
-                        </Form.Group>
+                    
+                    <Form.Group className="mb-3" controlId="emailInput">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control ref={emailRef} required type="email" placeholder="name@example.com" />
+                    </Form.Group>
                 }
 
-                <Button className='mt-3' variant="primary" type="submit">
+                
+                <Button ref={submitButtonRef} className='mt-3' variant="primary" type="submit">
                     Submit
                 </Button>
 

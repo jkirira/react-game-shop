@@ -10,14 +10,14 @@ import BankBranch from './models/BankBranch.js';
 import Payment from './models/Payment.js';
 import PaymentInstruction from './models/PaymentInstruction.js';
 
-Client.hasOne(ClientDetail, { foreignKey: 'client_id' });
-ClientDetail.belongsTo(Client);
+// Client.hasOne(ClientDetail, { foreignKey: 'client_id' });
+// ClientDetail.belongsTo(Client);
 
 Client.hasMany(ClientAccount, { foreignKey: 'client_id' });
 ClientAccount.belongsTo(Client);
 
-User.hasOne(UserDetail, { foreignKey: 'user_id' });
-UserDetail.belongsTo(User);
+// User.hasOne(UserDetail, { foreignKey: 'user_id' });
+// UserDetail.belongsTo(User);
 
 Bank.hasMany(BankBranch, { foreignKey: 'bank_id' });
 BankBranch.belongsTo(Bank);
@@ -34,10 +34,8 @@ Payment.belongsTo(PaymentInstruction);
 
 export {
     User,
-    UserDetail,
     Client,
     ClientAccount,
-    ClientDetail,
     Game,
     Category,
     Bank,
