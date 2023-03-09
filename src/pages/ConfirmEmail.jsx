@@ -21,10 +21,13 @@ export default function ConfirmEmail() {
     useEffect(() => {
         emailConfirmationApi({token: email_confirmation_token})
                 .then(response => {
-                    console.log(response.body)
+                    // console.log(response.data)
+                    if(emailRef.current) {
+                        emailRef.current.value = response.data.data.email
+                    }
                 })
                 .catch(error => {
-                    console.log(error.response.body)
+                    console.log(error.response.data)
                     navigate('/login');
                 })
     }, [email_confirmation_token]);
@@ -94,7 +97,7 @@ export default function ConfirmEmail() {
                     
                     <Form.Group className="mb-3" controlId="emailInput">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control ref={emailRef} required type="email" placeholder="name@example.com" />
+                        <Form.Control ref={emailRef} disabled required type="email" placeholder="name@example.com" />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
