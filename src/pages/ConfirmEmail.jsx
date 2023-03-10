@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Form, Button } from 'react-bootstrap';
 
+import { toastNotify } from "../helpers";
 import { completeRegistrationApi, emailConfirmationApi } from "../apis/auth";
 
 const passwordRegex = new RegExp(/^[a-z0-9]+$/i);
@@ -25,10 +26,12 @@ export default function ConfirmEmail() {
                     if(emailRef.current) {
                         emailRef.current.value = response.data.data.email
                     }
+                    toastNotify(response.data.message, { type: response.data.type, toastId: 'email-confirmation-api-success' });
                 })
                 .catch(error => {
                     console.log(error.response.data)
                     navigate('/login');
+                    toastNotify(error.response.data.message, { type: error.response.data.type, toastId: 'email-confirmation-api-failure'  });
                 })
     }, [email_confirmation_token]);
 
@@ -53,11 +56,13 @@ export default function ConfirmEmail() {
         
         completeRegistrationApi(form_data)
             .then(response => {
-                console.log(response.body)
+                // console.log(response.body)
                 navigate('/');
+                toastNotify(response.data.message, { type: response.data.type });
             })
             .catch(error => {
-                console.log(error.response.body)
+                // console.log(error.response.body)
+                toastNotify(error.response.data.message, { type: error.response.data.type });
                 submitButtonRef.current.disabled = false;
             })
 
