@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function LoginForm({type, handleFormSubmit}) {
+function LoginForm({type, handleFormSubmit, disabled}) {
 
     const navigate = useNavigate();
     const submitButtonRef = useRef(null);
@@ -96,7 +96,7 @@ function LoginForm({type, handleFormSubmit}) {
                 }
 
                 
-                <Button ref={submitButtonRef} className='mt-3' variant="primary" type="submit">
+                <Button ref={submitButtonRef} className='mt-3' variant="primary" type="submit" disabled={disabled}>
                     Submit
                 </Button>
 
@@ -113,12 +113,14 @@ function LoginForm({type, handleFormSubmit}) {
 
 LoginForm.defaultProps = {
     type: 'login',
-    handleFormSubmit: () => {}
+    handleFormSubmit: () => {},
+    disabled: false,
 }
 
 LoginForm.propTypes = {
     type: PropTypes.string,
-    handleFormSubmit: PropTypes.func
+    handleFormSubmit: PropTypes.func,
+    disabled: PropTypes.bool,
 }
 
 export default LoginForm;

@@ -28,7 +28,7 @@ function SignUp() {
                 <h3>Sign Up</h3>
             </section>
             <section className="login-page_form_wrapper">
-                <LoginForm type='sign_up' handleFormSubmit={handleSignUpSubmit} />
+                <LoginForm type='sign_up' handleFormSubmit={handleSignUpSubmit} disabled={loading} />
             </section>
         </div>
     );
