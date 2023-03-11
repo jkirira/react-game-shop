@@ -1,37 +1,37 @@
 import { useCallback, useState } from "react";
-import LoginForm from "../components/LoginForm";
-import { forgotPasswordApi } from "../apis/auth";
-import { toastNotify } from "../helpers";
+import LoginForm from "../../components/LoginForm";
+import { signUpApi } from '../../apis/client/auth';
+import { toastNotify } from '../../helpers';
 
-function ForgotPassword() {
+function SignUp() {
     const [loading, setLoading] = useState(false);
 
-    const handleForgotPasswordSubmit = useCallback((formdata) => {
+    const handleSignUpSubmit = useCallback((formdata) => {
         setLoading(true);
 
-        forgotPasswordApi(formdata)
+        signUpApi(formdata)
             .then(response => {
                 // console.log(response.data.message)
                 toastNotify(response.data.message, { type: response.data.type, autoClose: false, closeOnClick: false });
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
                 toastNotify(error.response.data.message, { type: error.response.data.type });
             })
             .then(() => setLoading(false));
             
     }, []);
+
     return (
         <div className="mx-auto my-5 border border-secondary rounded p-5 d-flex flex-column w-50">
             <section className="my-3">
-                <h3 className="my-3">Reset Your Password</h3>
-                <p>Enter your email address and we will send you a password reset link to your email. </p>
+                <h3>Sign Up</h3>
             </section>
-            <section>
-                <LoginForm type='password_reset' handleFormSubmit={handleForgotPasswordSubmit} disabled={loading} />
+            <section className="login-page_form_wrapper">
+                <LoginForm type='sign_up' handleFormSubmit={handleSignUpSubmit} disabled={loading} />
             </section>
         </div>
     );
 }
 
-export default ForgotPassword;
+export default SignUp;

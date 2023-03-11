@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginApi } from "../apis/auth";
-import LoginForm from "../components/LoginForm";
-import { toastNotify } from "../helpers";
-import { setUser } from "../store/slices/userSlice";
-import { loggedIn } from "../store/slices/authSlice";
+import { loginApi } from "../../apis/client/auth";
+import LoginForm from "../../components/LoginForm";
+import { toastNotify } from "../../helpers";
+import { setUser } from "../../store/slices/userSlice";
+import { loggedIn } from "../../store/slices/authSlice";
 
 function Login() {
     const navigate = useNavigate();
