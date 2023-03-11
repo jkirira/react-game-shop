@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import BaseLayout from './layouts/BaseLayout'
 import AdminLayout from './layouts/admin/AdminLayout'
 import ClientLayout from './layouts/client/ClientLayout'
+import adminRoutes from './routes/admin/index'
 import clientRoutes from './routes/client/index'
 
 const browserRouter = createBrowserRouter([
@@ -12,7 +13,7 @@ const browserRouter = createBrowserRouter([
             {
                 path: 'admin',
                 element: <AdminLayout />,
-                children: []
+                children: adminRoutes,
             },
             {
                 element: <ClientLayout />,
