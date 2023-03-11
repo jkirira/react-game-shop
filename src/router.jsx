@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
 import ConfirmEmail from './pages/ConfirmEmail'
+import ResetPassword from './pages/ResetPassword'
 
 const browserRouter = createBrowserRouter([
 	{
@@ -30,7 +31,11 @@ const browserRouter = createBrowserRouter([
             {
                 path: 'confirm-email',
                 element: <ConfirmEmail />
-            }
+            },
+            {
+                path: 'reset-password',
+                element: <ResetPassword />
+            },
         ]
 	},
 ]);

@@ -187,11 +187,73 @@ const forgotPassword = async function (req, res) {
 
 }
 
+const confirmPasswordReset = async (req, res) => {
+    const token = req.body['token'];
+
+    if (!token) {
+       return res.status(400).json({type: 'error',  message: 'A reset token must be provided.'});
+    }
+
+    let client_details = {};
+
+    try {
+        client_details = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+
+    } catch(err) {
+        let error_message = '';
+        if(err.name == 'TokenExpiredError') {
+            error_message = 'The token has expired. Please sign up again';
+        } else {
+            error_message = 'Invalid token';
+        }
+        return res.status(400).json({type: 'error',  message: error_message});
+
+    }
+
+    let existingUser = await Client.findOne({ where: { email: client_details.email } });
+
+    if(!existingUser) {
+        return res.status(400).json({type: 'error', message: "Invalid Token"});
+    }
+
+    return res.status(200).json({type: 'success',  message: 'Please reset your password.', email: client_details.email});
+
+}
+
+const passwordReset = async (req, res) => {
+    let data = req.body;
+
+    if (!data['email'] || !data['password']) {
+        return res.status(400).json({type: 'error',  message: 'Something went wrong. Could not reset your password.'});
+    }
+
+    let client = await Client.findOne({ where: { email: data['email'] } });
+    if(!client) {
+        return res.status(400).json({type: 'error',  message: 'Something went wrong. Could not reset your password.'});
+    }
+
+    const hashed_password = bcrypt.hashSync(data['password'], 10);
+
+    await client.update({
+        password: hashed_password,
+    })
+    .then(response => {
+        return res.status(200).json({type: 'success', message: 'Your password has been saved successfully.'});
+    })
+    .catch(error => {
+        console.log('error', error);
+        return res.status(400).json({type: 'error',  message: 'Something went wrong. Could not complete registration.'});
+    })
+
+}
+
 
 export {
     login,
     signUp,
     confirmEmail,
     completeRegistration,
-    forgotPassword
+    forgotPassword,
+    confirmPasswordReset,
+    passwordReset,
 }
