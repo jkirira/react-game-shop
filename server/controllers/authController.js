@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { formatDuration, formatISO9075 } from 'date-fns';
 
 import sequelize from '../config/database.js';
-import { sendEmailConfirmation } from '../controllers/mailController.js';
+import { sendEmailConfirmation, sendPasswordResetEmail } from '../controllers/mailController.js';
 import { getJWTToken } from '../repositories/authRepository.js';
 import { Client } from '../database/sequelize/models.js';
 
@@ -153,13 +153,45 @@ const completeRegistration = async (req, res) => {
 
 }
 
-const confirmPassword = async () => {
+const forgotPassword = async function (req, res) {
+    let data = req.body;
+    if( !data['email'] ) {
+        return res.status(400).json({type: 'error', message: "Please enter your email!"});
+    }
+
+
+    let client = await Client.findOne({ where: { email: data['email'] } });
+    if(!client) {
+        return res.status(400).json({type: 'error', message: "Email does not exist!"});
+    }
+
+    const hours_to_expiry = 5;
+    const passwordResetToken = getJWTToken({ email: data['email'] }, (hours_to_expiry * 60 * 60));
+
+    const app_url = process.env.VITE_APP_URL;
+    const password_reset_link = `${app_url}/reset-password?token=${passwordResetToken}`
+    
+    const mailData = {
+        username: client.username,
+        password_reset_link: password_reset_link,
+        expiresAfter: formatDuration({ hours: hours_to_expiry }),
+    }
+
+    await sendPasswordResetEmail(data['email'], mailData)
+            .then(response => {
+                return res.status(200).json({type: 'success', message: "A password reset email has been sent. Please check your email to reset your password."});
+            })
+            .catch(error => {
+                return res.status(400).json({type: 'error', message: "Could not send password reset email."});
+            });
 
 }
+
 
 export {
     login,
     signUp,
     confirmEmail,
-    completeRegistration
+    completeRegistration,
+    forgotPassword
 }

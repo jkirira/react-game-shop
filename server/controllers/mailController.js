@@ -37,6 +37,37 @@ const sendEmailConfirmation = async (to, mailOptions) => {
 }
 
 
+const sendPasswordResetEmail = async (to, mailData) => {
+    if(!to) {
+        console.log('Missing to email address');
+        return;
+    }
+
+    let html = '';
+
+    ejs.renderFile('server/templates/emails/password_reset.ejs', mailData, {}, function(err, str){
+        // str => Rendered HTML string
+        if(err){
+            console.log('ejs error', err)
+        } else {
+            html = str;
+        }
+    });
+
+                
+    const options = {
+        to: to,
+        from: support,
+        subject: 'Reset your Game Shop password',
+        html: html
+    }
+
+   await mailer.sendMail(options);
+
+}
+
+
 export {
-    sendEmailConfirmation
+    sendEmailConfirmation,
+    sendPasswordResetEmail,
 }
