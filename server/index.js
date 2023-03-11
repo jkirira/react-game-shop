@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import { completeRegistration, confirmEmail, login, signUp, forgotPassword, confirmPasswordReset, passwordReset } from './controllers/authController.js';
+import AdminRouter from './routers/admin/index.js'
+import ClientRouter from './routers/client/index.js'
 
 dotenv.config();
 
@@ -23,19 +24,10 @@ app.get('/test', async (req, res) => {
     return res.status(204).json({});
 })
 
-app.post('/api/login', login)
+app.use('/api/admin', AdminRouter);
 
-app.post('/api/sign-up', signUp)
+app.use('/api', ClientRouter)
 
-app.post('/api/confirm-email', confirmEmail)
-
-app.post('/api/complete-registration', completeRegistration)
-
-app.post('/api/forgot-password', forgotPassword)
-
-app.post('/api/confirm-password-reset', confirmPasswordReset)
-
-app.post('/api/password-reset', passwordReset)
 
 app.get('/*', (req, res) => {
     console.log('here');

@@ -3,10 +3,9 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { formatDuration, formatISO9075 } from 'date-fns';
 
-import sequelize from '../config/database.js';
-import { sendEmailConfirmation, sendPasswordResetEmail } from '../controllers/mailController.js';
-import { getJWTToken } from '../repositories/authRepository.js';
-import { Client } from '../database/sequelize/models.js';
+import { sendEmailConfirmation, sendPasswordResetEmail } from '../../repositories/mailRepository.js';
+import { getJWTToken } from '../../repositories/authRepository.js';
+import { Client } from '../../database/sequelize/models.js';
 
 
 dotenv.config();
