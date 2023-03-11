@@ -5,16 +5,45 @@ import { formatDuration, formatISO9075 } from 'date-fns';
 
 import sequelize from '../config/database.js';
 import { sendEmailConfirmation } from '../controllers/mailController.js';
+import { getJWTToken } from '../repositories/authRepository.js';
 import { Client } from '../database/sequelize/models.js';
 
 
 dotenv.config();
 
 
-const login = function (req, res) {
-    if( !!req.body.username || !!req.body.password ) {
+const login = async function (req, res) {
+    let data = req.body;
+    if( !data['username'] || !data['password'] ) {
         return res.status(400).json({type: 'error', message: "Please fill all values"});
     }
+
+    let client = await Client.findOne({ where: { username: data['username'] } });
+    if(!client) {
+        console.log('', 'User not found', '')
+        return res.status(400).json({type: 'error', message: 'Username or password is incorrect!'});
+    }
+
+    const password_matches = bcrypt.compareSync(data['password'], client.password);
+    if(!password_matches) {
+        console.log('', 'Incorrect password', '')
+        return res.status(400).json({type: 'error', message: 'Username or password is incorrect!'});
+    }
+
+    await client.update({
+        last_login: formatISO9075(new Date()),
+    });
+
+    let seconds_to_expiry = 3 * 60 * 60;
+    let token = getJWTToken({ id: client.id, isAdmin: false }, seconds_to_expiry);
+    return res.status(200).json({
+        type: "success", 
+        message: "Login Successful!", 
+        user: client.display(), 
+        token: token, 
+        isAdmin: false
+    });
+
 }
 
 const signUp = async function (req, res) {

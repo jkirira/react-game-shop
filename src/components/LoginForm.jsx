@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -9,9 +9,7 @@ function LoginForm({type, handleFormSubmit, disabled}) {
     const submitButtonRef = useRef(null);
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
-
-    const [password, setPassword] = useState('');
-
+    const passwordRef = useRef(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,7 +21,7 @@ function LoginForm({type, handleFormSubmit, disabled}) {
 
         if(type=='login') {
             form_data['username'] = usernameRef?.current?.value
-            form_data['password'] = password
+            form_data['password'] = passwordRef?.current?.value
         }
 
         if(type=='password_reset' || type=='sign_up') {
@@ -31,17 +29,6 @@ function LoginForm({type, handleFormSubmit, disabled}) {
         }
 
         handleFormSubmit(form_data);
-
-    }
-
-
-    const isValidPassword = () => {
-        
-        if(password.length < 8) {
-            return false;
-        }
-
-        return passwordRegex.test(password);
 
     }
 
@@ -65,20 +52,10 @@ function LoginForm({type, handleFormSubmit, disabled}) {
                             <Form.Label htmlFor="loginPasswordInput">Password</Form.Label>
                             <Form.Control
                                 id="loginPasswordInput" 
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                isValid={isValidPassword()} 
-                                isInvalid={!isValidPassword()} 
+                                ref={passwordRef}
                                 type="password" 
-                                aria-describedby="loginPasswordInputHelpBlock"
                                 required 
                             />
-                            <Form.Text id="loginPasswordInputHelpBlock" muted>
-                                Your password must be at least 8 characters long, contain letters or numbers, and must not contain spaces, special characters, or emoji.
-                            </Form.Text>
-                            
-                            { password && <Form.Control.Feedback type="invalid">Please provide a valid password.</Form.Control.Feedback> }
-
                         </Form.Group>
                     </>
                 }
