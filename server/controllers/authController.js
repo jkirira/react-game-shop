@@ -61,7 +61,7 @@ const signUp = async function (req, res) {
     }
 
     const hours_to_expiry = 5;
-    const confirmationToken = jwt.sign({ email: data['email'] }, process.env.JWT_TOKEN_SECRET, { expiresIn: (hours_to_expiry * 60 * 60) });
+    const confirmationToken = jwt.sign({ email: data['email'], time: Date.now() }, process.env.JWT_TOKEN_SECRET, { expiresIn: (hours_to_expiry * 60 * 60) });
 
     const app_url = process.env.VITE_APP_URL;
     const email_confirmation_link = `${app_url}/confirm-email?token=${confirmationToken}`
@@ -165,8 +165,8 @@ const forgotPassword = async function (req, res) {
         return res.status(400).json({type: 'error', message: "Email does not exist!"});
     }
 
-    const hours_to_expiry = 5;
-    const passwordResetToken = getJWTToken({ email: data['email'] }, (hours_to_expiry * 60 * 60));
+    const hours_to_expiry = 0.5;
+    const passwordResetToken = getJWTToken({ email: data['email'], time: Date.now() }, (hours_to_expiry * 60 * 60));
 
     const app_url = process.env.VITE_APP_URL;
     const password_reset_link = `${app_url}/reset-password?token=${passwordResetToken}`
