@@ -1,5 +1,5 @@
 import ejs from 'ejs';
-import { support, mailer } from '../config/mail.js';
+import { support, mailer } from '../../../config/mail.js';
 
 
 const sendEmail = (data) => {

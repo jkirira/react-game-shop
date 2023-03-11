@@ -5,7 +5,7 @@ import { formatDuration, formatISO9075 } from 'date-fns';
 
 import { sendEmailConfirmation, sendPasswordResetEmail } from '../../repositories/mailRepository.js';
 import { getJWTToken } from '../../repositories/authRepository.js';
-import { Client } from '../../database/sequelize/models.js';
+import { Client } from '../../../../database/sequelize/models.js';
 
 
 dotenv.config();

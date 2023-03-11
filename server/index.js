@@ -3,8 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import AdminRouter from './routers/admin/index.js'
-import ClientRouter from './routers/client/index.js'
+import v1ApiRouter from './api/v1/routes/index.js';
 
 dotenv.config();
 
@@ -24,13 +23,12 @@ app.get('/test', async (req, res) => {
     return res.status(204).json({});
 })
 
-app.use('/api/admin', AdminRouter);
 
-app.use('/api', ClientRouter)
+app.use('/api/v1', v1ApiRouter);
 
 
-app.get('/*', (req, res) => {
-    console.log('here');
+app.all('*', (req, res, next) => {
+    console.log('404');
     /*
     *
     * TODO: create 404 page
@@ -38,7 +36,7 @@ app.get('/*', (req, res) => {
     * res.sendFile(path.resolve(__dirname) + '/index.html');
     * 
     */
-    res.status(404).json({message: 'Unknown path'});
+    res.status(404).json({type: "error", message: 'Unknown path'});
 })
 
 
