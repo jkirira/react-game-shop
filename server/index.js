@@ -18,6 +18,11 @@ app.use(cors());
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
+app.get('/test', async (req, res) => {
+    // function to test server response here
+    return res.status(204).json({});
+})
+
 app.post('/api/login', login)
 
 app.post('/api/sign-up', signUp)

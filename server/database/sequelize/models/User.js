@@ -1,6 +1,13 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../../../config/database.js';
 
+const HIDDEN_ATTRIBUTES = [
+    'password',
+    'createdAt',
+    'updatedAt',
+    'deletedAt',
+];
+
 const User = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
@@ -20,5 +27,14 @@ const User = sequelize.define('User', {
 {
     tableName: 'users'
 });
+
+User.prototype.display = function() {
+    let user = Object.assign({}, this.toJSON());
+    for (let attr of HIDDEN_ATTRIBUTES) {
+      delete user[attr];
+    }
+    return user;
+    
+}
 
 export default User;

@@ -114,7 +114,7 @@ const completeRegistration = async (req, res) => {
             message: 'User account successfully created.',
             token: token,
             isAdmin: false,
-            user: client,
+            user: client.display(),
         });
     })
     .catch(error => {
