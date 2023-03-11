@@ -108,8 +108,14 @@ const completeRegistration = async (req, res) => {
     })
     .then(client => {
         const hours_to_expiry = 3;
-        const token = jwt.sign({ id: client.id }, process.env.JWT_TOKEN_SECRET, { expiresIn: (hours_to_expiry * 60 * 60) });
-        return res.status(200).json({type: 'success',  message: 'User account successfully created.', data: { token: token }});
+        const token = jwt.sign({ id: client.id, isAdmin: false }, process.env.JWT_TOKEN_SECRET, { expiresIn: (hours_to_expiry * 60 * 60) });
+        return res.status(200).json({
+            type: 'success',
+            message: 'User account successfully created.',
+            token: token,
+            isAdmin: false,
+            user: client,
+        });
     })
     .catch(error => {
         console.log('error', error);

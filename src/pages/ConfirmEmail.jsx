@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 
 import { toastNotify } from "../helpers";
 import { completeRegistrationApi, emailConfirmationApi } from "../apis/auth";
+import { loggedIn } from "../store/slices/authSlice";
+import { setUser } from "../store/slices/userSlice";
 
 const passwordRegex = new RegExp(/^[a-z0-9]+$/i);
 
@@ -12,6 +15,7 @@ export default function ConfirmEmail() {
     const submitButtonRef = useRef(null);
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
+    const dispatch = useDispatch();
     
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -57,11 +61,18 @@ export default function ConfirmEmail() {
         completeRegistrationApi(form_data)
             .then(response => {
                 // console.log(response.body)
+                let data = response.data;
+                dispatch(setUser(data['user']));
+                dispatch(loggedIn({
+                    token: data['token'],
+                    isAdmin: data['isAdmin'],
+                    id: data['user'] ? data['user']['id'] : null,
+                }));
                 navigate('/');
-                toastNotify(response.data.message, { type: response.data.type });
+                toastNotify(data.message, { type: data.type });
             })
             .catch(error => {
-                // console.log(error.response.body)
+                console.log(error)
                 toastNotify(error.response.data.message, { type: error.response.data.type });
                 submitButtonRef.current.disabled = false;
             })
