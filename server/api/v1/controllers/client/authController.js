@@ -163,7 +163,7 @@ const forgotPassword = async function (req, res) {
     }
 
     const hours_to_expiry = 0.5;
-    const passwordResetToken = getJWTToken({ email: data['email'], time: Date.now() }, (hours_to_expiry * 60 * 60));
+    const passwordResetToken = getJWTToken({ email: data['email'] }, (hours_to_expiry * 60 * 60));
 
     const app_url = process.env.VITE_APP_URL;
     const password_reset_link = `${app_url}/reset-password?token=${passwordResetToken}`
