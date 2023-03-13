@@ -65,7 +65,6 @@ export default function ConfirmEmail() {
                 dispatch(setUser(data['user']));
                 dispatch(loggedIn({
                     token: data['token'],
-                    isAdmin: data['isAdmin'],
                     id: data['user'] ? data['user']['id'] : null,
                 }));
                 navigate('/');

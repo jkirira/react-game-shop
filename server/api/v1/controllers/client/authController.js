@@ -34,13 +34,12 @@ const login = async function (req, res) {
     });
 
     let seconds_to_expiry = 3 * 60 * 60;
-    let token = getJWTToken({ id: client.id, isAdmin: false }, seconds_to_expiry);
+    let token = getJWTToken({ id: client.id }, seconds_to_expiry);
     return res.status(200).json({
         type: "success", 
         message: "Login Successful!", 
         user: client.display(), 
         token: token, 
-        isAdmin: false
     });
 
 }
@@ -136,12 +135,11 @@ const completeRegistration = async (req, res) => {
     })
     .then(client => {
         const hours_to_expiry = 3;
-        const token = jwt.sign({ id: client.id, isAdmin: false }, process.env.JWT_TOKEN_SECRET, { expiresIn: (hours_to_expiry * 60 * 60) });
+        const token = jwt.sign({ id: client.id }, process.env.JWT_TOKEN_SECRET, { expiresIn: (hours_to_expiry * 60 * 60) });
         return res.status(200).json({
             type: 'success',
             message: 'User account successfully created.',
             token: token,
-            isAdmin: false,
             user: client.display(),
         });
     })
