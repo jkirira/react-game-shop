@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
-import LoginForm from "../components/LoginForm";
-import { signUpApi } from '../apis/auth';
+import LoginForm from "../../components/LoginForm";
+import { signUpApi } from '../../apis/client/auth';
+import { toastNotify } from '../../helpers';
 
 function SignUp() {
     const [loading, setLoading] = useState(false);
@@ -10,10 +11,12 @@ function SignUp() {
 
         signUpApi(formdata)
             .then(response => {
-                console.log(response)
+                // console.log(response.data.message)
+                toastNotify(response.data.message, { type: response.data.type, autoClose: false, closeOnClick: false });
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
+                toastNotify(error.response.data.message, { type: error.response.data.type });
             })
             .then(() => setLoading(false));
             
@@ -25,7 +28,7 @@ function SignUp() {
                 <h3>Sign Up</h3>
             </section>
             <section className="login-page_form_wrapper">
-                <LoginForm type='sign_up' handleFormSubmit={handleSignUpSubmit} />
+                <LoginForm type='sign_up' handleFormSubmit={handleSignUpSubmit} disabled={loading} />
             </section>
         </div>
     );

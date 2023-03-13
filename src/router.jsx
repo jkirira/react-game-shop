@@ -1,10 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
 import BaseLayout from './layouts/BaseLayout'
-import Home from './pages/Home'
-import Login from './pages/Login'
-import SignUp from './pages/SignUp'
-import ForgotPassword from './pages/ForgotPassword'
-import ConfirmEmail from './pages/ConfirmEmail'
+import AdminLayout from './layouts/admin/AdminLayout'
+import ClientLayout from './layouts/client/ClientLayout'
+import adminRoutes from './routes/admin/index'
+import clientRoutes from './routes/client/index'
 
 const browserRouter = createBrowserRouter([
 	{
@@ -12,25 +11,14 @@ const browserRouter = createBrowserRouter([
 		element: <BaseLayout />,
         children: [
             {
-                index: true,
-                element: <Home />
+                path: 'admin',
+                element: <AdminLayout />,
+                children: adminRoutes,
             },
             {
-                path: 'login',
-                element: <Login />
+                element: <ClientLayout />,
+                children: clientRoutes,
             },
-            {
-                path: 'sign-up',
-                element: <SignUp />
-            },
-            {
-                path: 'forgot-password',
-                element: <ForgotPassword />
-            },
-            {
-                path: 'confirm-email',
-                element: <ConfirmEmail />
-            }
         ]
 	},
 ]);

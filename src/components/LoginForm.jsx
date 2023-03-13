@@ -1,45 +1,30 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-
-const passwordRegex = new RegExp(/^[a-z0-9]+$/i);
-
-
-function LoginForm({type, handleFormSubmit}) {
+function LoginForm({type, handleFormSubmit, disabled}) {
 
     const navigate = useNavigate();
-
+    const submitButtonRef = useRef(null);
     const usernameRef = useRef(null);
     const emailRef = useRef(null);
-
-    const [password, setPassword] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('');
-
+    const passwordRef = useRef(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation();
 
+        submitButtonRef.current.disabled = true;
+
         const form_data = {};
 
-        if(!isValidPassword() || !isValidPasswordConfirmation()) {
-            return false;
-        }
-
-        if(type=='login' || type=='sign_up') {
+        if(type=='login') {
             form_data['username'] = usernameRef?.current?.value
-            form_data['password'] = password
+            form_data['password'] = passwordRef?.current?.value
         }
 
-        if(type=='sign_up') {
-            form_data['password_confirmation'] = passwordConfirmation
-            form_data['email'] = emailRef?.current?.value
-        }
-
-
-        if(type=='password_reset') {
+        if(type=='password_reset' || type=='sign_up') {
             form_data['email'] = emailRef?.current?.value
         }
 
@@ -48,36 +33,31 @@ function LoginForm({type, handleFormSubmit}) {
     }
 
 
-    const isValidPassword = () => {
-        
-        if(password.length < 8) {
-            return false;
-        }
-
-        return passwordRegex.test(password);
-
-    }
-
-
-    // const isValidPasswordConfirmation = () => {
-    //     return password === passwordConfirmation;
-    // }
-
-
-
     return (
         <>
             <Form onSubmit={handleSubmit}>
 
                 {
-                    (type=='login' || type=='sign_up')
+                    (type=='login')
 
                     &&
 
-                    <Form.Group className="mb-3" controlId="usernameInput">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control ref={usernameRef} required type="username" placeholder="" />
-                    </Form.Group>
+                    <>
+                        <Form.Group className="mb-3" controlId="usernameInput">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control ref={usernameRef} required type="username" placeholder="" />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label htmlFor="loginPasswordInput">Password</Form.Label>
+                            <Form.Control
+                                id="loginPasswordInput" 
+                                ref={passwordRef}
+                                type="password" 
+                                required 
+                            />
+                        </Form.Group>
+                    </>
                 }
 
 
@@ -93,61 +73,7 @@ function LoginForm({type, handleFormSubmit}) {
                 }
 
                 
-                {
-                    (type=='login' || type=='sign_up')
-
-                    &&
-
-                        <Form.Group className="mb-3">
-                            <Form.Label htmlFor="loginPasswordInput">Password</Form.Label>
-                            <Form.Control
-                                id="loginPasswordInput" 
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                isValid={isValidPassword()} 
-                                isInvalid={!isValidPassword()} 
-                                type="password" 
-                                aria-describedby="loginPasswordInputHelpBlock"
-                                required 
-                            />
-                            <Form.Text id="loginPasswordInputHelpBlock" muted>
-                                Your password must be at least 8 characters long, contain letters or numbers, and must not contain spaces, special characters, or emoji.
-                            </Form.Text>
-                            
-                            { password && <Form.Control.Feedback type="invalid">Please provide a valid password.</Form.Control.Feedback> }
-
-                        </Form.Group>
-                }
-
-
-                {
-                    (type=='sign_up')
-
-                    &&
-
-                        <Form.Group className="mb-3">
-                            <Form.Label htmlFor="loginPasswordConfirmation">Confirm Password</Form.Label>
-                            <Form.Control
-                                id="loginPasswordConfirmation" 
-                                value={passwordConfirmation}
-                                onChange={(e) => setPasswordConfirmation(e.target.value)}
-                                isValid={password === passwordConfirmation}
-                                isInvalid={password !== passwordConfirmation}
-                                disabled={!password}
-                                type="password" 
-                                aria-describedby="loginPasswordConfirmationHelpBlock" 
-                                required 
-                            />
-                            <Form.Text id="loginPasswordConfirmationHelpBlock" muted>
-                                Please confirm your password.
-                            </Form.Text>
-                            <Form.Control.Feedback type="invalid">
-                                Password confirmation do not match.
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                }
-
-                <Button className='mt-3' variant="primary" type="submit">
+                <Button ref={submitButtonRef} className='mt-3' variant="primary" type="submit" disabled={disabled}>
                     Submit
                 </Button>
 
@@ -164,12 +90,14 @@ function LoginForm({type, handleFormSubmit}) {
 
 LoginForm.defaultProps = {
     type: 'login',
-    handleFormSubmit: () => {}
+    handleFormSubmit: () => {},
+    disabled: false,
 }
 
 LoginForm.propTypes = {
     type: PropTypes.string,
-    handleFormSubmit: PropTypes.func
+    handleFormSubmit: PropTypes.func,
+    disabled: PropTypes.bool,
 }
 
 export default LoginForm;

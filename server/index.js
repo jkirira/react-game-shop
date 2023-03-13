@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import { confirmEmail, login, signUp } from './controllers/authController.js';
+import v1ApiRouter from './api/v1/routes/index.js';
 
 dotenv.config();
 
@@ -18,14 +18,17 @@ app.use(cors());
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-app.post('/api/login', login)
+app.get('/test', async (req, res) => {
+    // function to test server response here
+    return res.status(204).json({});
+})
 
-app.post('/api/sign-up', signUp)
 
-app.post('/api/confirm-email', confirmEmail)
+app.use('/api/v1', v1ApiRouter);
 
-app.get('/*', (req, res) => {
-    console.log('here');
+
+app.all('*', (req, res, next) => {
+    console.log('404');
     /*
     *
     * TODO: create 404 page
@@ -33,7 +36,7 @@ app.get('/*', (req, res) => {
     * res.sendFile(path.resolve(__dirname) + '/index.html');
     * 
     */
-    res.status(404).json({message: 'Unknown path'});
+    res.status(404).json({type: "error", message: 'Unknown path'});
 })
 
 
