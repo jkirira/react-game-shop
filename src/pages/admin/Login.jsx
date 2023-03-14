@@ -1,12 +1,14 @@
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button } from "react-bootstrap";
 
 import { loginApi } from "../../apis/admin/auth";
 import { toastNotify } from "../../helpers";
 import { setUser } from "../../store/slices/userSlice";
 import { loggedIn } from "../../store/slices/authSlice";
+
+import paths from "../../routes/admin/pathnames";
 
 function Login() {
     const navigate = useNavigate();
@@ -38,7 +40,7 @@ function Login() {
                     token: data['token'],
                     id: data['user'] ? data['user']['id'] : null,
                 }));
-                navigate('/admin');
+                navigate(paths.ADMIN_HOME);
             })
             .catch(error => {
                 console.log(error);

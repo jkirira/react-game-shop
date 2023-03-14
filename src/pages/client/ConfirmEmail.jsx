@@ -8,6 +8,8 @@ import { completeRegistrationApi, emailConfirmationApi } from "../../apis/client
 import { loggedIn } from "../../store/slices/authSlice";
 import { setUser } from "../../store/slices/userSlice";
 
+import paths from "../../routes/client/pathnames";
+
 const passwordRegex = new RegExp(/^[a-z0-9]+$/i);
 
 export default function ConfirmEmail() {
@@ -34,7 +36,7 @@ export default function ConfirmEmail() {
                 })
                 .catch(error => {
                     console.log(error.response.data)
-                    navigate('/login');
+                    navigate(paths.LOGIN);
                     toastNotify(error.response.data.message, { type: error.response.data.type, toastId: 'email-confirmation-api-failure'  });
                 })
     }, [email_confirmation_token]);
@@ -67,7 +69,7 @@ export default function ConfirmEmail() {
                     token: data['token'],
                     id: data['user'] ? data['user']['id'] : null,
                 }));
-                navigate('/');
+                navigate(paths.HOME);
                 toastNotify(data.message, { type: data.type });
             })
             .catch(error => {

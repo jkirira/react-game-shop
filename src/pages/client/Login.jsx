@@ -7,6 +7,8 @@ import { toastNotify } from "../../helpers";
 import { setUser } from "../../store/slices/userSlice";
 import { loggedIn } from "../../store/slices/authSlice";
 
+import paths from "../../routes/client/pathnames"
+
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -25,7 +27,7 @@ function Login() {
                     token: data['token'],
                     id: data['user'] ? data['user']['id'] : null,
                 }));
-                navigate('/');
+                navigate(paths.HOME);
             })
             .catch(error => {
                 console.log(error)

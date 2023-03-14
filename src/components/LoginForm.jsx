@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import paths from '../routes/client/pathnames';
 
 function LoginForm({type, handleFormSubmit, disabled}) {
 
@@ -80,9 +81,9 @@ function LoginForm({type, handleFormSubmit, disabled}) {
             </Form>
 
             <section className='my-5'>
-                { (type!=='login') && <p>Already have an account? <u className='cursor-pointer' onClick={() => navigate('/login')}>Login</u></p>}
-                { (type!=='sign_up') && <p>Don't have an account? <u className='cursor-pointer' onClick={() => navigate('/sign-up')}>Sign Up</u></p>}
-                { (type!=='password_reset') && <p>Forgot your password? <u className='cursor-pointer' onClick={() => navigate('/forgot-password')}>Reset Password</u></p>}
+                { (type!=='login') && <p>Already have an account? <u className='cursor-pointer' onClick={() => navigate(paths.LOGIN)}>Login</u></p>}
+                { (type!=='sign_up') && <p>Don't have an account? <u className='cursor-pointer' onClick={() => navigate(paths.SIGN_UP)}>Sign Up</u></p>}
+                { (type!=='password_reset') && <p>Forgot your password? <u className='cursor-pointer' onClick={() => navigate(paths.FORGOT_PASSWORD)}>Reset Password</u></p>}
             </section>
         </>
     );
