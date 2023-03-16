@@ -17,3 +17,7 @@ export const confirmPasswordResetApi = function (data, options = {}) {
 export const passwordResetApi = function (data, options = {}) {
     return axios.post(`${BASE_API_URL}/password-reset`, data, options);
 }
+
+export const authUserApi = function (data, options = {}) {
+    return axios.post(`${BASE_API_URL}/auth/user`, data, options);
+}

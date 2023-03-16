@@ -32,9 +32,9 @@ export function authReducer(state = initialState, action){
 
 
 /*  getters */
-export const selectAuthId = state => state.id
-export const isLoggedIn = state => state.isLoggedIn
-export const selectAuthToken = state => state.token
+export const authIdSelector = state => state.auth.id
+export const isLoggedInSelector = state => state.auth.isLoggedIn
+export const authTokenSelector = state => state.auth.token
 
 
 

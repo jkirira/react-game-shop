@@ -5,4 +5,13 @@ const paths = {
     ADMIN_RESET_PASSWORD: '/admin/reset-password',
 }
 
-export default paths;
+const noAuthPaths = [
+    paths.ADMIN_LOGIN,
+    paths.ADMIN_FORGOT_PASSWORD,
+    paths.ADMIN_RESET_PASSWORD,
+]
+
+export {
+    paths,
+    noAuthPaths,
+}

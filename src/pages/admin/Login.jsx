@@ -8,7 +8,7 @@ import { toastNotify } from "../../helpers";
 import { setUser } from "../../store/slices/userSlice";
 import { loggedIn } from "../../store/slices/authSlice";
 
-import paths from "../../routes/admin/pathnames";
+import { paths } from "../../routes/admin/paths";
 
 function Login() {
     const navigate = useNavigate();

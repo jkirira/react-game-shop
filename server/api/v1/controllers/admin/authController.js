@@ -93,7 +93,7 @@ const confirmPasswordReset = async (req, res) => {
     } catch(err) {
         let error_message = '';
         if(err.name == 'TokenExpiredError') {
-            error_message = 'The token has expired. Please sign up again';
+            error_message = 'This token has expired. Please make another request.';
         } else {
             console.log('error', err)
             error_message = 'Invalid token';
@@ -139,10 +139,43 @@ const passwordReset = async (req, res) => {
 
 }
 
+const authUser = async (req, res) => {
+    let data = req.body;
+    if( !data['token'] ) {
+        return res.status(400).json({type: 'error', message: "Something went wrong. Could not complete your request."});
+    }
+    
+    let token_details = {};
+
+    try {
+        token_details = jwt.verify(data['token'], process.env.JWT_TOKEN_SECRET);
+
+    } catch(err) {
+        let error_message = '';
+        if(err.name == 'TokenExpiredError') {
+            error_message = 'The token has expired. Please login to continue.';
+        } else {
+            console.log('error', err)
+            error_message = 'Invalid token';
+        }
+        return res.status(400).json({type: 'error', message: error_message});
+
+    }
+
+    let user = await User.findOne({ where: { id: token_details.id } });
+    if(!user) {
+        return res.status(400).json({type: 'error', message: 'Invalid token'});
+    }
+
+    
+    return res.status(200).json({ user: user.display(), token: data['token'] });
+
+}
 
 export {
     login,
     forgotPassword,
     confirmPasswordReset,
     passwordReset,
+    authUser
 }
