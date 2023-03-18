@@ -1,4 +1,4 @@
-import paths from './pathnames'
+import { paths } from './paths'
 
 import Home from '../../pages/Home'
 import Login from '../../pages/client/Login'

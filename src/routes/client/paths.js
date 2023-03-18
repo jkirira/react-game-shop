@@ -7,4 +7,16 @@ const paths = {
     CONFIRM_EMAIL: '/confirm-email',
 }
 
-export default paths;
+const noAuthPaths = [
+    paths.HOME,
+    paths.LOGIN,
+    paths.SIGN_UP,
+    paths.FORGOT_PASSWORD,
+    paths.RESET_PASSWORD,
+    paths.CONFIRM_EMAIL,
+]
+
+export {
+    paths,
+    noAuthPaths,
+}

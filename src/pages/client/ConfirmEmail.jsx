@@ -8,7 +8,7 @@ import { completeRegistrationApi, emailConfirmationApi } from "../../apis/client
 import { loggedIn } from "../../store/slices/authSlice";
 import { setUser } from "../../store/slices/userSlice";
 
-import paths from "../../routes/client/pathnames";
+import { paths } from "../../routes/client/paths";
 
 const passwordRegex = new RegExp(/^[a-z0-9]+$/i);
 

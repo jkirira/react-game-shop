@@ -105,7 +105,7 @@ const confirmEmail = async (req, res) => {
     let existingUser = await Client.findOne({ where: { email: client_details.email } });
 
     if(!!existingUser) {
-        return res.status(400).json({type: 'error', message: "That email is already confirmed!"});
+        return res.status(400).json({type: 'error', message: "That email is already in use!"});
     }
 
     return res.status(200).json({type: 'success',  message: 'Please complete registration to access your account.', data: { email: client_details.email }});
@@ -244,6 +244,39 @@ const passwordReset = async (req, res) => {
 
 }
 
+const authUser = async (req, res) => {
+    let data = req.body;
+    if( !data['token'] ) {
+        return res.status(400).json({type: 'error', message: "Something went wrong. Could not complete your request."});
+    }
+    
+    let token_details = {};
+
+    try {
+        token_details = jwt.verify(data['token'], process.env.JWT_TOKEN_SECRET);
+
+    } catch(err) {
+        let error_message = '';
+        if(err.name == 'TokenExpiredError') {
+            error_message = 'The token has expired. Please login to continue.';
+        } else {
+            console.log('error', err)
+            error_message = 'Invalid token';
+        }
+        return res.status(400).json({type: 'error', message: error_message});
+
+    }
+
+    let client = await Client.findOne({ where: { id: token_details.id } });
+    if(!client) {
+        return res.status(400).json({type: 'error', message: 'Invalid token'});
+    }
+
+    
+    return res.status(200).json({ client: client.display(), token: data['token'] });
+
+}
+
 
 export {
     login,
@@ -253,4 +286,5 @@ export {
     forgotPassword,
     confirmPasswordReset,
     passwordReset,
+    authUser,
 }

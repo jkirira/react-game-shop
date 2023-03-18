@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import paths from '../routes/client/pathnames';
+import { paths } from '../routes/client/paths';
 
 function LoginForm({type, handleFormSubmit, disabled}) {
 

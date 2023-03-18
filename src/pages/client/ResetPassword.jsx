@@ -5,7 +5,7 @@ import { Form, Button } from "react-bootstrap";
 import { toastNotify } from "../../helpers";
 import { passwordResetApi, confirmPasswordResetApi } from "../../apis/client/auth";
 
-import paths from "../../routes/client/pathnames";
+import { paths } from "../../routes/client/paths";
 
 
 const passwordRegex = new RegExp(/^[a-z0-9]+$/i);
