@@ -4,7 +4,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { getFromLocalStorage, toastNotify } from '../../helpers';
 import { authUserApi } from '../../apis/admin/auth';
-import { paths, noAuthPaths } from '../../routes/admin/paths';
+import { paths, requireNoAuthPaths } from '../../routes/admin/paths';
 import { loggedIn, loggedOut, isLoggedInSelector } from '../../store/slices/authSlice';
 import { setUser, userSelector, isAdminSelector } from '../../store/slices/userSlice';
 
@@ -21,6 +21,8 @@ export default function AdminLayout() {
 
 
     useEffect(() => {
+
+        let pathRequiresNoAuth = requireNoAuthPaths.includes(location.pathname);
 
         async function fetchAuthUser(token) {
             if(!token) {
@@ -52,7 +54,7 @@ export default function AdminLayout() {
                 return;
 
             } else {
-                if(noAuthPaths.includes(location.pathname)) {
+                if(pathRequiresNoAuth) {
                     setIsAuthenticated(true);
                     return;
 
@@ -67,7 +69,7 @@ export default function AdminLayout() {
 
         } else if(!!user) {
 
-            if(noAuthPaths.includes(location.pathname)) {
+            if(pathRequiresNoAuth) {
                 if(isLoggedIn) {
                     /*
                         toastify currently not working with navigate(-1)

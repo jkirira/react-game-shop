@@ -4,7 +4,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { getFromLocalStorage, toastNotify } from '../../helpers';
 import { authUserApi } from '../../apis/client/auth';
-import { paths, noAuthPaths } from '../../routes/client/paths';
+import { paths, requireAuthPaths, requireNoAuthPaths } from '../../routes/client/paths';
 import { loggedIn, loggedOut, isLoggedInSelector } from '../../store/slices/authSlice';
 import { setUser, userSelector, isAdminSelector } from '../../store/slices/userSlice';
 
@@ -20,6 +20,11 @@ export default function ClientLayout() {
 
 
     useEffect(() => {
+
+        let pathRequiresNoAuth = requireNoAuthPaths.includes(location.pathname);
+        let pathRequiresAuth = requireAuthPaths.includes(location.pathname);
+        let openPath = !pathRequiresAuth && !pathRequiresNoAuth;
+
 
         async function fetchAuthUser(token) {
             if(!token) {
@@ -51,22 +56,26 @@ export default function ClientLayout() {
                 return;
 
             } else {
-                if(noAuthPaths.includes(location.pathname)) {
+                if(pathRequiresNoAuth) {
                     setIsAuthenticated(true);
                     return;
 
-                } else {
+                } else if(pathRequiresAuth) {
                     toastNotify('Please log in to continue', { type: 'error' });
                     dispatch(loggedOut());
                     navigate(paths.LOGIN);
                     return;
+
+                } else if (openPath) {
+                    setIsAuthenticated(true);
+                    return;
+
                 }
             }
-            return;
 
         } else if(!!user) {
 
-            if(noAuthPaths.includes(location.pathname)) {
+            if(pathRequiresNoAuth) {
                 if(isLoggedIn) {
                     /*
                         toastify currently not working with navigate(-1)
@@ -80,12 +89,15 @@ export default function ClientLayout() {
                     let from = location.state?.from?.pathname || -1;
                     navigate(from);
                     toastNotify('You are already logged in.', { type: 'error' });
+                    return;
+
                 } else {
                     setIsAuthenticated(true);
-                }
-                return;
+                    return;
 
-            } else {
+                }
+
+            } else if(pathRequiresAuth) {
                 if (isAdmin || !isLoggedIn) {
                     toastNotify('You are not authorized to perform that action.', { type: 'error' });
                     dispatch(loggedOut());
@@ -95,7 +107,12 @@ export default function ClientLayout() {
                 } else if (!isAdmin && isLoggedIn) {
                     setIsAuthenticated(true);
                     return;
+
                 }
+
+            } else if (openPath) {
+                setIsAuthenticated(true);
+                return;
 
             }
         }
