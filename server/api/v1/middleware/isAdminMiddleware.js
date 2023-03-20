@@ -5,7 +5,7 @@ import { User } from '../../../database/sequelize/models.js';
 dotenv.config();
 
 const isAdminMiddleware = async function (req, res, next) {
-    let auth_token = req.headers('authorization');
+    let auth_token = req.headers['authorization'];
 
     if(!auth_token) {
         return res.status(401).json({type: 'error',  message: 'Unauthenticated'});
