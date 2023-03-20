@@ -1,4 +1,5 @@
 import express from 'express';
+import authMiddleware from '../../middleware/authMiddleware.js';
 import { completeRegistration, confirmEmail, login, signUp, forgotPassword, confirmPasswordReset, passwordReset, authUser } from '../../controllers/client/authController.js';
 
 const router = express.Router()
@@ -17,6 +18,6 @@ router.post('/confirm-password-reset', confirmPasswordReset)
 
 router.post('/password-reset', passwordReset)
 
-router.post('/auth/user', authUser);
+router.post('/auth/user', authMiddleware, authUser);
 
 export default router;
