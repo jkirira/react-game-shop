@@ -1,45 +1,38 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 
 import { toastNotify } from "../../helpers";
-import { completeRegistrationApi, emailConfirmationApi } from "../../apis/client/auth";
-import { loggedIn } from "../../store/slices/authSlice";
-import { setUser } from "../../store/slices/userSlice";
+import { passwordResetApi, confirmPasswordResetApi } from "../../apis/admin/auth";
 
-import { paths } from "../../routes/client/paths";
+import { paths } from "../../routes/admin/paths";
 
 const passwordRegex = new RegExp(/^[a-z0-9]+$/i);
 
-export default function ConfirmEmail() {
+export default function ResetPassword() {
     const navigate = useNavigate();
     const submitButtonRef = useRef(null);
-    const usernameRef = useRef(null);
-    const emailRef = useRef(null);
-    const dispatch = useDispatch();
     
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
 
-    let email_confirmation_token = searchParams.get('token');
+    let password_reset_token = searchParams.get('token');
 
     useEffect(() => {
-        emailConfirmationApi({token: email_confirmation_token})
+        confirmPasswordResetApi({token: password_reset_token})
                 .then(response => {
                     // console.log(response.data)
-                    if(emailRef.current) {
-                        emailRef.current.value = response.data.data.email
-                    }
-                    toastNotify(response.data.message, { type: response.data.type, toastId: 'email-confirmation-api-success' });
+                    toastNotify(response.data.message, { type: response.data.type, toastId: 'password-reset-api-success' });
+                    setEmail(response.data.email);
                 })
                 .catch(error => {
-                    console.log(error.response.data)
-                    navigate(paths.LOGIN);
-                    toastNotify(error.response.data.message, { type: error.response.data.type, toastId: 'email-confirmation-api-failure'  });
+                    console.log(error);
+                    navigate(paths.ADMIN_LOGIN);
+                    toastNotify(error.response.data.message, { type: error.response.data.type, toastId: 'password-reset-api-failure' });
                 })
-    }, [email_confirmation_token]);
+    }, [password_reset_token]);
 
 
     const handleSubmit = (e) => {
@@ -51,26 +44,20 @@ export default function ConfirmEmail() {
         const form_data = {};
 
         if(!isValidPassword() || !isValidPasswordConfirmation()) {
+            toastNotify('Invalid password.', {type: error});
             submitButtonRef.current.disabled = false;
             return false;
         }
 
-        form_data['username'] = usernameRef?.current?.value
-        form_data['password'] = password
-        form_data['email'] = emailRef?.current?.value
-
+        form_data['email'] = email;
+        form_data['password'] = password;
+        // form_data['password_confirmation'] = passwordConfirmation
         
-        completeRegistrationApi(form_data)
+        passwordResetApi(form_data)
             .then(response => {
                 // console.log(response.body)
-                let data = response.data;
-                dispatch(setUser(data['user']));
-                dispatch(loggedIn({
-                    token: data['token'],
-                    id: data['user'] ? data['user']['id'] : null,
-                }));
-                navigate(paths.HOME);
-                toastNotify(data.message, { type: data.type });
+                navigate(paths.ADMIN_LOGIN);
+                toastNotify(response.data.message, { type: response.data.type });
             })
             .catch(error => {
                 console.log(error)
@@ -100,23 +87,13 @@ export default function ConfirmEmail() {
 
     return (
         <div className="mx-auto my-5 border border-secondary rounded p-5 d-flex flex-column w-50">
-            <section className="my-3">
-                <h3>Complete Your Registration</h3>
+            <section className="mt-3">
+                <h3>Reset Your Password</h3>
+                <p>Enter your new password.</p>
             </section>
 
             <section>
                 <Form onSubmit={handleSubmit}>
-
-                    <Form.Group className="mb-3" controlId="usernameInput">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control ref={usernameRef} required type="username" placeholder="" />
-                    </Form.Group>
-                    
-                    <Form.Group className="mb-3" controlId="emailInput">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control ref={emailRef} disabled required type="email" placeholder="name@example.com" />
-                    </Form.Group>
-
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="loginPasswordInput">Password</Form.Label>
                         <Form.Control
@@ -133,7 +110,7 @@ export default function ConfirmEmail() {
                             Your password must be at least 8 characters long, contain letters or numbers, and must not contain spaces, special characters, or emoji.
                         </Form.Text>
                         
-                        { password && <Form.Control.Feedback type="invalid">Please provide a valid password.</Form.Control.Feedback> }
+                        <Form.Control.Feedback type="invalid">Please provide a valid password.</Form.Control.Feedback>
 
                     </Form.Group>
 
@@ -158,7 +135,7 @@ export default function ConfirmEmail() {
                         </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Button ref={submitButtonRef} className='mt-3' variant="primary" type="submit">
+                    <Button ref={submitButtonRef} className='my-5' variant="primary" type="submit">
                         Submit
                     </Button>
 

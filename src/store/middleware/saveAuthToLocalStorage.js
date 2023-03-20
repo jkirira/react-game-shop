@@ -4,7 +4,6 @@ const saveAuthToLocalStorage = storeApi => next => action => {
 
     if (action.type === 'auth/loggedIn') {
         saveToLocalStorage('token', action.payload?.token);
-        saveToLocalStorage('isAdmin', action.payload?.isAdmin);
         saveToLocalStorage('id', action.payload?.id);
 
     } else if (action.type === 'auth/setToken') {

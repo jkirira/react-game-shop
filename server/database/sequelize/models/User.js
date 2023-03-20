@@ -23,6 +23,15 @@ const User = sequelize.define('User', {
     gender: DataTypes.STRING,
     email: DataTypes.STRING,
     last_login: DataTypes.DATE,
+    isAdmin: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            return true;
+          },
+          set(value) {
+            throw new Error('Cannot set virtual field.');
+          }
+    },
 }, 
 {
     tableName: 'users'

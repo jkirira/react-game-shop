@@ -7,6 +7,8 @@ import { toastNotify } from "../../helpers";
 import { setUser } from "../../store/slices/userSlice";
 import { loggedIn } from "../../store/slices/authSlice";
 
+import { paths } from "../../routes/client/paths";
+
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -23,10 +25,9 @@ function Login() {
                 dispatch(setUser(data['user']));
                 dispatch(loggedIn({
                     token: data['token'],
-                    isAdmin: data['isAdmin'],
                     id: data['user'] ? data['user']['id'] : null,
                 }));
-                navigate('/');
+                navigate(paths.HOME);
             })
             .catch(error => {
                 console.log(error)

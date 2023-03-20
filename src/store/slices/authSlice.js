@@ -1,7 +1,6 @@
 const initialState = {
     id: null,
     isLoggedIn: false,
-    isAdmin: false,
     token: null,
 }
 
@@ -17,7 +16,6 @@ export function authReducer(state = initialState, action){
             return {
                 id: null,
                 isLoggedIn: false,
-                isAdmin: false,
                 token: false,
             }
         }
@@ -34,10 +32,9 @@ export function authReducer(state = initialState, action){
 
 
 /*  getters */
-export const selectAuthId = state => state.id
-export const isLoggedIn = state => state.isLoggedIn
-export const isAdmin = state => state.isAdmin
-export const selectAuthToken = state => state.token
+export const authIdSelector = state => state.auth.id
+export const isLoggedInSelector = state => state.auth.isLoggedIn
+export const authTokenSelector = state => state.auth.token
 
 
 

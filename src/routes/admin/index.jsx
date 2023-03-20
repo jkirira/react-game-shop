@@ -1,5 +1,9 @@
+import { paths } from './paths'
+
 import AdminHome from '../../pages/admin/Home'
 import AdminLogin from '../../pages/admin/Login'
+import ForgotPassword from '../../pages/admin/ForgotPassword'
+import ResetPassword from '../../pages/admin/ResetPassword'
 
 const routes = [
     {
@@ -7,8 +11,16 @@ const routes = [
         element: <AdminHome />,
     },
     {
-        path: 'login',
+        path: paths.ADMIN_LOGIN,
         element: <AdminLogin />
+    },
+    {
+        path: paths.ADMIN_FORGOT_PASSWORD,
+        element: <ForgotPassword />
+    },
+    {
+        path: paths.ADMIN_RESET_PASSWORD,
+        element: <ResetPassword />
     },
 ]
 

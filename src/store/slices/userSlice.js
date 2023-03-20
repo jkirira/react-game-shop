@@ -18,7 +18,8 @@ export function userReducer(state=initialState, action) {
 
 
 /*  getters */
-export const stateUser = store => store.user
+export const userSelector = state => state.user.user
+export const isAdminSelector = state => state.user?.user?.isAdmin
 
 
 /*  action creators */

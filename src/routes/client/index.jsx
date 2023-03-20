@@ -1,3 +1,5 @@
+import { paths } from './paths'
+
 import Home from '../../pages/Home'
 import Login from '../../pages/client/Login'
 import SignUp from '../../pages/client/SignUp'
@@ -11,23 +13,23 @@ const routes = [
         element: <Home />,
     },
     {
-        path: 'login',
+        path: paths.LOGIN,
         element: <Login />
     },
     {
-        path: 'sign-up',
+        path: paths.SIGN_UP,
         element: <SignUp />
     },
     {
-        path: 'forgot-password',
+        path: paths.FORGOT_PASSWORD,
         element: <ForgotPassword />
     },
     {
-        path: 'confirm-email',
+        path: paths.CONFIRM_EMAIL,
         element: <ConfirmEmail />
     },
     {
-        path: 'reset-password',
+        path: paths.RESET_PASSWORD,
         element: <ResetPassword />
     },
 ]

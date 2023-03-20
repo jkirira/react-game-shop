@@ -19,12 +19,12 @@ export function toastNotify (message, options = {}) {
 export function getFromLocalStorage(key) {
     const localstorage_key = import.meta.env.VITE_LOCALSTORAGE_KEY || 'game_shop';
     let stringified_data = window.localStorage.getItem(localstorage_key);
-    let data = JSON.parse(stringified_data);
+    let data = stringified_data ? JSON.parse(stringified_data) : {};
 
     if(!key) {
         return data;
     } else {
-        return data?.key;
+        return data[key];
     }
 
 }

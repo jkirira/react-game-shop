@@ -8,6 +8,9 @@ export function getJWTToken(data, seconds_to_expiry) {
         seconds_to_expiry = 3 * 60 * 60; // 3 hours
     }
 
+    // adding random data to object to randomize token
+    data['time'] = data['time'] ?? Date.now();
+
     const token = jwt.sign(data, process.env.JWT_TOKEN_SECRET, { expiresIn: seconds_to_expiry });
     return token;
 }

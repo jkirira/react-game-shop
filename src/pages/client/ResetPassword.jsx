@@ -5,6 +5,8 @@ import { Form, Button } from "react-bootstrap";
 import { toastNotify } from "../../helpers";
 import { passwordResetApi, confirmPasswordResetApi } from "../../apis/client/auth";
 
+import { paths } from "../../routes/client/paths";
+
 
 const passwordRegex = new RegExp(/^[a-z0-9]+$/i);
 
@@ -28,7 +30,7 @@ export default function ResetPassword() {
                 })
                 .catch(error => {
                     console.log(error);
-                    navigate('/login');
+                    navigate(paths.LOGIN);
                     toastNotify(error.response.data.message, { type: error.response.data.type, toastId: 'password-reset-api-failure' });
                 })
     }, [password_reset_token]);
@@ -55,7 +57,7 @@ export default function ResetPassword() {
         passwordResetApi(form_data)
             .then(response => {
                 // console.log(response.body)
-                navigate('/login');
+                navigate(paths.LOGIN);
                 toastNotify(response.data.message, { type: response.data.type });
             })
             .catch(error => {
