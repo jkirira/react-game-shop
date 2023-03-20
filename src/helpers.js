@@ -24,7 +24,7 @@ export function getFromLocalStorage(key) {
     if(!key) {
         return data;
     } else {
-        return data?.key;
+        return data[key];
     }
 
 }
