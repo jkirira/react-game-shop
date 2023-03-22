@@ -16,6 +16,14 @@ export function toastNotify (message, options = {}) {
     return toast(toast_message, { type: toast_type, ...options });
 }
 
+export function toastNotifySuccess(message, extraOptions = {}) {
+    return toastNotify(message, { type: 'success', ...extraOptions });
+}
+
+export function toastNotifyError(message, extraOptions = {}) {
+    return toastNotify(message, { type: 'error', ...extraOptions });
+}
+
 export function getFromLocalStorage(key) {
     const localstorage_key = import.meta.env.VITE_LOCALSTORAGE_KEY || 'game_shop';
     let stringified_data = window.localStorage.getItem(localstorage_key);
