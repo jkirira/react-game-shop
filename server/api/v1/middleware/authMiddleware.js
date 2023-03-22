@@ -15,6 +15,7 @@ const authMiddleware = function (req, res, next) {
         next();
 
     } catch (err) {
+        let error_message = '';
         if(err.name == 'TokenExpiredError') {
             error_message = 'This token has expired. Please make another request.';
         } else {
