@@ -93,7 +93,7 @@ const confirmPasswordReset = async (req, res) => {
     } catch(err) {
         let error_message = '';
         if(err.name == 'TokenExpiredError') {
-            error_message = 'This token has expired. Please make another request.';
+            error_message = 'This token has expired. Please login again.';
         } else {
             console.log('error', err)
             error_message = 'Invalid token';
