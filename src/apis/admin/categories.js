@@ -11,3 +11,11 @@ export const fetchCategoriesApi = function (data, options = {}) {
 export const addCategoryApi = function (data, options = {}) {
     return httpClient.post(`${BASE_API_URL}/categories`, data, options);
 }
+
+export const getCategoryApi = function (category_id, data, options = {}) {
+    return httpClient.get(`${BASE_API_URL}/categories/${category_id}`, data, options);
+}
+
+export const editCategoryApi = function (category_id, data, options = {}) {
+    return httpClient.put(`${BASE_API_URL}/categories/${category_id}`, data, options);
+}

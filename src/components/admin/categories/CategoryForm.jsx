@@ -27,7 +27,7 @@ export default function CategoryForm({handleFormSubmit, category=null, disabled=
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control ref={nameRef} type="text" required />
+                    <Form.Control ref={nameRef} type="text" defaultValue={category?.name} required />
                 </Form.Group>
 
                 <Form.Group className="float-end mb-3" controlId="submit">

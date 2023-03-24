@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, generatePath } from "react-router-dom";
 import { parseISO, format } from "date-fns";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 import { fetchCategoriesApi } from "../../../apis/admin/categories.js";
 import { categoriesSelector, setCategories } from "../../../store/slices/categoriesSlice.js";
@@ -55,7 +57,11 @@ export default function Categories() {
                                             <td>{ category.id }</td>
                                             <td>{ category.name }</td>
                                             <td>{ format(parseISO(category.createdAt), 'yyyy-MM-dd') }</td>
-                                            <td></td>
+                                            <td className="d-flex align-items-center">
+                                                <Link to={generatePath(paths.ADMIN_CATEGORIES_EDIT, { categoryId: category.id })}>
+                                                    <FontAwesomeIcon icon={faPenToSquare} />
+                                                </Link>
+                                            </td>
                                         </tr>
                                     )
                                 )

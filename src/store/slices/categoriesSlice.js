@@ -1,3 +1,5 @@
+import { createSelector } from "reselect";
+
 const initialState = {
     categories: []
 }
@@ -18,7 +20,18 @@ export function categoriesReducer(state = initialState, action) {
 
 
 // selectors
-export const categoriesSelector = state => state.categories.categories;
+export const categoriesSelector = createSelector(
+    // First, pass one or more "input selector" functions:
+    state => state.categories.categories,
+    // Then, an "output selector" that receives all the input results as arguments
+    // and returns a final result value
+    categories => categories
+);
+  
+  
+export const categoriesSelectorById = (state, categoryId) => {
+    return state.categories.categories.find(category => category.id == categoryId);
+}
 
 
 // action creators
