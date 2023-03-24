@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { getFromLocalStorage, toastNotify } from '../../helpers';
@@ -15,7 +15,7 @@ export default function AdminLayout() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
-    const user = useSelector(userSelector);
+    const user = useSelector(userSelector, shallowEqual);
     const isAdmin = useSelector(isAdminSelector);
     const isLoggedIn = useSelector(isLoggedInSelector);
 

@@ -1,3 +1,5 @@
+import { createSelector } from "reselect";
+
 const initialState = {
     games: []
 }
@@ -18,7 +20,11 @@ export function gamesReducer(state = initialState, action) {
 
 
 // selectors
-export const gamesSelector = state => state.games.games;
+export const gamesSelector = createSelector(
+    state => state.games.games,
+    games => games
+);
+
 
 
 // action creators
