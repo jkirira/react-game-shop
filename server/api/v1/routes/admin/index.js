@@ -19,6 +19,6 @@ router.post('/auth/user', authMiddleware, isAdminMiddleware, authUser);
 
 router.use('/games', gamesRouter);
 
-router.use('/categories', categoriesRouter);
+router.use('/categories', authMiddleware, isAdminMiddleware, categoriesRouter);
 
 export default router;

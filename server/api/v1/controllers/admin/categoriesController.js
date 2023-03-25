@@ -42,3 +42,16 @@ export const editCategory = async (req, res) => {
                     return res.status(500).json({type: 'error', message: "Something went wrong could not update record."});
                 });
 }
+
+export const deleteCategory = async (req, res) => {
+    let category_id = req.params['category_id'];
+
+    await Category.destroy({ where: { id: category_id }})
+                .then(response => {
+                    return res.status(200).json({type: 'success', message: "Category deleted successfully!"});
+                })
+                .catch(error => {
+                    console.log('delete error', error);
+                    return res.status(500).json({type: 'error', message: "Something went wrong could not delete record."});
+                });
+}

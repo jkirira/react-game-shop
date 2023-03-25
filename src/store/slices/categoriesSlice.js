@@ -12,6 +12,13 @@ export function categoriesReducer(state = initialState, action) {
                 categories: action.payload,
             }
         }
+        case 'categories/removeCategory': {
+            let filteredCategories = state.categories.filter(category => category.id !== action.payload);
+            return {
+                ...state,
+                categories: filteredCategories,
+            }
+        }
         default: {
             return state
         }
@@ -38,6 +45,13 @@ export const categoriesSelectorById = (state, categoryId) => {
 export const setCategories = payload => {
     return {
         type: 'categories/setCategories',
+        payload: payload
+    }
+}
+
+export const removeCategory = payload => {
+    return {
+        type: 'categories/removeCategory',
         payload: payload
     }
 }

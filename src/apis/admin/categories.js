@@ -19,3 +19,7 @@ export const getCategoryApi = function (category_id, data, options = {}) {
 export const editCategoryApi = function (category_id, data, options = {}) {
     return httpClient.put(`${BASE_API_URL}/categories/${category_id}`, data, options);
 }
+
+export const deleteCategoriesApi = function (category_id, data, options = {}) {
+    return httpClient.delete(`${BASE_API_URL}/categories/${category_id}`, data, options);
+}
