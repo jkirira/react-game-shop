@@ -11,9 +11,12 @@ import { toastNotifyError } from "../../../helpers.js";
 import AddCategoryModal from "../../../components/admin/categories/AddCategoryModal.jsx";
 import EditCategoryModal from "../../../components/admin/categories/EditCategoryModal.jsx";
 import DeleteCategoryModal from "../../../components/admin/categories/DeleteCategoryModal.jsx";
+import { generatePath, useNavigate } from "react-router-dom";
+import { paths } from "../../../routes/admin/paths.js";
 
 export default function Categories() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const categories = useSelector(categoriesSelector);
 
     const [showAddModal, setShowAddModal] = useState(false);
@@ -85,7 +88,11 @@ export default function Categories() {
                     {
                         (categories?.length > 0)
                             ?   categories.map(category => (
-                                        <tr key={ category.id }>
+
+                                        <tr onClick={() => navigate(generatePath(paths.ADMIN_CATEGORIES_VIEW, {categoryId: category.id}))}
+                                            key={ category.id }
+                                            className="cursor-pointer"
+                                        >
                                             <td>{ category.id }</td>
                                             <td>{ category.name }</td>
                                             <td>{ format(parseISO(category.createdAt), 'yyyy-MM-dd') }</td>
@@ -93,7 +100,9 @@ export default function Categories() {
                                                 <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faPenToSquare} onClick={() => openEditModal(category.id)} />
                                                 <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faTrashCan} onClick={() => openDeleteModal(category.id)} />
                                             </td>
+                                        
                                         </tr>
+                                    
                                     )
                                 )
 

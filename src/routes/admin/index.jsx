@@ -5,8 +5,7 @@ import AdminLogin from '../../pages/admin/Login'
 import ForgotPassword from '../../pages/admin/ForgotPassword'
 import ResetPassword from '../../pages/admin/ResetPassword'
 import Categories from '../../pages/admin/categories/Categories'
-import AddCategory from '../../pages/admin/categories/AddCategory'
-import EditCategory from '../../pages/admin/categories/EditCategory'
+import ViewCategory from '../../pages/admin/categories/ViewCategory'
 
 const routes = [
     {
@@ -33,12 +32,8 @@ const routes = [
                 element: <Categories />
             },
             {
-                path: paths.ADMIN_CATEGORIES_CREATE,
-                element: <AddCategory />
-            },
-            {
-                path: paths.ADMIN_CATEGORIES_EDIT,
-                element: <EditCategory />
+                path: paths.ADMIN_CATEGORIES_VIEW,
+                element: <ViewCategory />
             },
         ]
     },

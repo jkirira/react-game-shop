@@ -4,6 +4,7 @@ const paths = {
     ADMIN_FORGOT_PASSWORD: '/admin/forgot-password',
     ADMIN_RESET_PASSWORD: '/admin/reset-password',
     ADMIN_CATEGORIES: '/admin/categories',
+    ADMIN_CATEGORIES_VIEW: '/admin/categories/:categoryId',
 }
 
 const requireNoAuthPaths = [
