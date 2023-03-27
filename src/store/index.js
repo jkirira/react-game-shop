@@ -1,4 +1,5 @@
 import { legacy_createStore as createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import saveAuthToLocalStorage from './middleware/saveAuthToLocalStorage.js';
 import rootReducer from './rootReducer';
@@ -10,7 +11,7 @@ import rootReducer from './rootReducer';
     The store needs the DevTools enhancer added, using composeWithDevTools
 */
 
-const middlewareEnhancer = applyMiddleware(saveAuthToLocalStorage);
+const middlewareEnhancer = applyMiddleware(saveAuthToLocalStorage, thunkMiddleware);
 
 const composedEnhancer = composeWithDevTools(
     middlewareEnhancer

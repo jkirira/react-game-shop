@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { parseISO, format } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
-import { fetchCategoriesApi } from "../../../apis/admin/categories.js";
-import { categoriesSelector, setCategories } from "../../../store/slices/categoriesSlice.js";
-import { toastNotifyError } from "../../../helpers.js";
+import { categoriesSelector } from "../../../store/slices/categoriesSlice.js";
 import AddCategoryModal from "../../../components/admin/categories/AddCategoryModal.jsx";
 import EditCategoryModal from "../../../components/admin/categories/EditCategoryModal.jsx";
 import DeleteCategoryModal from "../../../components/admin/categories/DeleteCategoryModal.jsx";
@@ -15,7 +13,6 @@ import { generatePath, useNavigate } from "react-router-dom";
 import { paths } from "../../../routes/admin/paths.js";
 
 export default function Categories() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const categories = useSelector(categoriesSelector);
 
@@ -24,19 +21,6 @@ export default function Categories() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-
-
-    useEffect(() => {
-        fetchCategoriesApi()
-                .then(response => {
-                    dispatch(setCategories(response.data.data));
-                })
-                .catch(error => {
-                    console.log(error);
-                    toastNotifyError('Something went wrong. Could not fetch categories.');
-                })
-    }, []);
-
 
     const closeAddModal = useCallback(() => {
         setShowAddModal(false);
@@ -64,11 +48,7 @@ export default function Categories() {
 
 
     return (
-        <div className="px-2">
-            
-            <section>
-                <h2>Categories</h2>
-            </section>
+        <div>
             
             <section className="d-flex justify-content-end">
                 <p className="text-primary cursor-pointer"><u onClick={() => setShowAddModal(true)}>Add Category</u></p>

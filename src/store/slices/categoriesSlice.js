@@ -1,4 +1,6 @@
 import { createSelector } from "reselect";
+import { fetchCategoriesApi } from "../../apis/admin/categories";
+import { toastNotifyError } from "../../helpers";
 
 const initialState = {
     categories: []
@@ -42,6 +44,18 @@ export function categoriesReducer(state = initialState, action) {
             return state
         }
     }
+}
+
+// thunk
+export async function fetchCategories(dispatch, getState) {
+    await fetchCategoriesApi()
+            .then(response => {
+                dispatch(setCategories(response.data.data));
+            })
+            .catch(error => {
+                console.log(error);
+                toastNotifyError('Something went wrong. Could not fetch categories.');
+            })
 }
 
 

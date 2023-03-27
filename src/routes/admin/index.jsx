@@ -6,6 +6,7 @@ import ForgotPassword from '../../pages/admin/ForgotPassword'
 import ResetPassword from '../../pages/admin/ResetPassword'
 import Categories from '../../pages/admin/categories/Categories'
 import ViewCategory from '../../pages/admin/categories/ViewCategory'
+import CategoriesLayout from '../../layouts/admin/CategoriesLayout'
 
 const routes = [
     {
@@ -26,6 +27,7 @@ const routes = [
     },
     {
         path: paths.ADMIN_CATEGORIES,
+        element: <CategoriesLayout />,
         children: [
             {
                 index: true,
