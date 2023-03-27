@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { parseISO, format } from "date-fns";
@@ -26,9 +26,10 @@ export default function Categories() {
         setShowAddModal(false);
     }, []);
 
-    const openEditModal = useCallback((category_id) => {
+    const openEditModal = useCallback((category_id, e) => {
         setSelectedCategoryId(category_id);
         setShowEditModal(true);
+        e.stopPropagation();
     }, []);
 
     const closeEditModal = useCallback(() => {
@@ -36,9 +37,10 @@ export default function Categories() {
         setSelectedCategoryId(null);
     }, []);
     
-    const openDeleteModal = useCallback((category_id) => {
+    const openDeleteModal = useCallback((category_id, e) => {
         setSelectedCategoryId(category_id);
         setShowDeleteModal(true);
+        e.stopPropagation();
     }, []);
 
     const closeDeleteModal = useCallback(() => {
@@ -77,8 +79,8 @@ export default function Categories() {
                                             <td>{ category.name }</td>
                                             <td>{ format(parseISO(category.createdAt), 'yyyy-MM-dd') }</td>
                                             <td>
-                                                <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faPenToSquare} onClick={() => openEditModal(category.id)} />
-                                                <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faTrashCan} onClick={() => openDeleteModal(category.id)} />
+                                                <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faPenToSquare} onClick={(e) => openEditModal(category.id, e)} />
+                                                <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faTrashCan} onClick={(e) => openDeleteModal(category.id, e)} />
                                             </td>
                                         
                                         </tr>
