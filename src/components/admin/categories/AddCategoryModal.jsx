@@ -1,14 +1,15 @@
 import { memo, useRef, useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { addCategoryApi } from "../../../apis/admin/categories";
 import { toastNotifySuccess, toastNotifyError } from "../../../helpers";
+import { addCategory } from "../../../store/slices/categoriesSlice";
 
 function AddCategoryModal({ showModal, closeModal }) {
     const [loading, setLoading] = useState(false);
 
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const nameRef = useRef(null);
 
 
@@ -21,11 +22,11 @@ function AddCategoryModal({ showModal, closeModal }) {
         addCategoryApi(form_data)
             .then(response => {
                 toastNotifySuccess(response.data.message);
+                dispatch(addCategory(response.data.category));
                 if(nameRef.current) {
                     nameRef.current.value = '';
                 }
                 closeModal();
-                navigate(0);
             })
             .catch(error => {
                 console.log(error);

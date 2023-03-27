@@ -1,16 +1,15 @@
 import { memo, useRef, useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { editCategoryApi } from "../../../apis/admin/categories";
 import { toastNotifySuccess, toastNotifyError } from "../../../helpers";
-import { categoriesSelectorById } from "../../../store/slices/categoriesSlice";
+import { categoriesSelectorById, editCategory } from "../../../store/slices/categoriesSlice";
 
 function EditCategoryModal({ showModal, closeModal, categoryId }) {
     const [loading, setLoading] = useState(false);
 
-    const navigate = useNavigate(null);
+    const dispatch = useDispatch(null);
     const nameRef = useRef(null);
     const category = useSelector(state => categoriesSelectorById(state, categoryId), shallowEqual);
 
@@ -24,8 +23,8 @@ function EditCategoryModal({ showModal, closeModal, categoryId }) {
         editCategoryApi(categoryId, form_data)
             .then(response => {
                 toastNotifySuccess(response.data.message);
+                dispatch(editCategory({id: categoryId, data: form_data}))
                 closeModal();
-                navigate(0);
             })
             .catch(error => {
                 console.log(error);

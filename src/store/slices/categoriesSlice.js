@@ -19,6 +19,25 @@ export function categoriesReducer(state = initialState, action) {
                 categories: filteredCategories,
             }
         }
+        case 'categories/addCategory': {
+            return {
+                ...state,
+                categories: [...state.categories, action.payload]
+            }
+        }
+        case 'categories/editCategory': {
+            let categories = state.categories.map(category => {
+                if (category.id !== action.payload.id) {
+                    return category;
+                } else {
+                    return {...category, ...action.payload.data};
+                } 
+            })
+            return {
+                ...state,
+                categories: categories
+            }
+        }
         default: {
             return state
         }
@@ -45,6 +64,20 @@ export const categoriesSelectorById = (state, categoryId) => {
 export const setCategories = payload => {
     return {
         type: 'categories/setCategories',
+        payload: payload
+    }
+}
+
+export const addCategory = payload => {
+    return {
+        type: 'categories/addCategory',
+        payload: payload
+    }
+}
+
+export const editCategory = payload => {
+    return {
+        type: 'categories/editCategory',
         payload: payload
     }
 }
