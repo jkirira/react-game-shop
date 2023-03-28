@@ -17,7 +17,7 @@ router.post('/password-reset', passwordReset);
 
 router.post('/auth/user', authMiddleware, isAdminMiddleware, authUser);
 
-router.use('/games', gamesRouter);
+router.use('/games', authMiddleware, isAdminMiddleware, gamesRouter);
 
 router.use('/categories', authMiddleware, isAdminMiddleware, categoriesRouter);
 
