@@ -1,65 +1,80 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Table } from "react-bootstrap";
-import { fetchGamesApi } from "../../apis/admin/games.js";
-import { toastNotify } from "../../helpers.js";
+import { faGamepad, faMoneyCheckDollar, faTableCells, faUser, faUserTie } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import { gamesSelector, setGames } from "../../store/slices/gamesSlice.js";
+import { toastNotifyError } from "../../helpers.js";
+import { paths } from "../../routes/admin/paths.js";
+import { dashboardApi } from "../../apis/admin/dashboard.js";
+import MenuCard from "../../components/admin/MenuCard.jsx";
 
 export default function Home() {
-    const dispatch = useDispatch();
-    const games = useSelector(gamesSelector);
+    const [dashboardInfo, setDashboardInfo] = useState({});
 
     useEffect(() => {
-        fetchGamesApi()
+        dashboardApi()
             .then(response => {
-                dispatch(setGames(response.data.data));
+                setDashboardInfo(response.data.data);
             })
             .catch(error => {
                 console.log(error);
-                toastNotify({message: 'Something went wrong. Could not fetch games.', type: 'error'});
+                toastNotifyError('Something went wrong. Could not fetch dashboard info.');
             })
     }, [])
 
     return (
         <div className="px-2">
+            
             <section>
-                <h2>Games</h2>
+                <h2>Dashboard</h2>
             </section>
-
+            
             <section>
-                <Table responsive>
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Category</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Rating</th>
-                            <th>Developed by</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        games.map(game => (
-                                <tr key={ game.id }>
-                                    <td>{ game.id }</td>
-                                    <td>{ game.name }</td>
-                                    <td>{ game.description }</td>
-                                    <td>{ game.category?.name }</td>
-                                    <td>{ game.quantity }</td>
-                                    <td>{ game.price }</td>
-                                    <td>{ game.rating }</td>
-                                    <td>{ game.developed_by }</td>
-                                </tr>
-                            )
-                        )
-                    }
-                    </tbody>
-                </Table>
+                <div className="row row-cols-lg-3 row-cols-xl-4">
+                    <Link to={paths.ADMIN_GAMES} className="text-decoration-none col mb-3">
+                        <MenuCard 
+                            title='Games'
+                            icon={faGamepad}
+                            count={dashboardInfo.games_count}
+                            color='aqua'
+                        />
+                    </Link>
+
+                    <Link to={paths.ADMIN_CATEGORIES} className="text-decoration-none col mb-3">
+                        <MenuCard 
+                            title='Categories'
+                            icon={faTableCells}
+                            count={dashboardInfo.categories_count}
+                            color='green'
+                        />
+                    </Link>
+
+                    <Link to={''} className="text-decoration-none col mb-3">
+                        <MenuCard 
+                            title='Admins'
+                            icon={faUserTie}
+                            count={dashboardInfo.users_count}
+                            color='gold'
+                        />
+                    </Link>
+
+                    <Link to={''} className="text-decoration-none col mb-3">
+                        <MenuCard 
+                            title='Users'
+                            icon={faUser}
+                            count={dashboardInfo.clients_count}
+                            color='crimson'
+                        />
+                    </Link>
+
+                    <Link to={''} className="text-decoration-none col mb-3">
+                        <MenuCard 
+                            title='Payments'
+                            icon={faMoneyCheckDollar}
+                            count={dashboardInfo.payments_count}
+                            color='purple'
+                        />
+                    </Link>
+                </div>
             </section>
 
         </div>
