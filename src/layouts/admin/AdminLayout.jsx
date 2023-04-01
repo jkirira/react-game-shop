@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import { getFromLocalStorage, toastNotifyError } from '../../helpers';
+import { getFromLocalStorage, toastNotifyError, toastNotifySuccess } from '../../helpers';
 import { authUserApi } from '../../apis/admin/auth';
 import { paths, requireNoAuthPaths } from '../../routes/admin/paths';
 import { loggedIn, loggedOut, isLoggedInSelector } from '../../store/slices/authSlice';
@@ -23,6 +23,14 @@ export default function AdminLayout() {
     useEffect(() => {
 
         let pathRequiresNoAuth = requireNoAuthPaths.includes(location.pathname);
+
+        if(location.pathname == paths.ADMIN_LOGOUT) {
+            dispatch(loggedOut());
+            dispatch(setUser(null));
+            toastNotifySuccess('Logged out successfully!');
+            navigate(paths.ADMIN_LOGIN);
+            return;
+        }
 
         async function fetchAuthUser(token) {
             if(!token) {

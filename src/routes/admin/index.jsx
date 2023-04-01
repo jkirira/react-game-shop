@@ -31,6 +31,9 @@ const routes = [
         element: <ResetPassword />
     },
     {
+        path: paths.ADMIN_LOGOUT,
+    },
+    {
         path: paths.ADMIN_CATEGORIES,
         element: <CategoriesLayout />,
         children: [
