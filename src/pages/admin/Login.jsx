@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 
 import { loginApi } from "../../apis/admin/auth";
@@ -13,6 +13,7 @@ import { paths } from "../../routes/admin/paths";
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
     const submitButtonRef = useRef(null);
     const usernameRef = useRef(null);
     const passwordRef = useRef(null);
@@ -32,7 +33,6 @@ function Login() {
 
         loginApi(form_data)
             .then(response => {
-                // console.log(response)
                 let data = response.data;
                 toastNotify(data.message, { type: data.type });
                 dispatch(setUser(data['user']));
@@ -40,7 +40,9 @@ function Login() {
                     token: data['token'],
                     id: data['user'] ? data['user']['id'] : null,
                 }));
-                navigate(paths.ADMIN_HOME);
+
+                let navigateTo = location.state?.from?.pathname || paths.ADMIN_HOME;
+                navigate(navigateTo);
             })
             .catch(error => {
                 console.log(error);
