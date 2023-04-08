@@ -50,7 +50,7 @@ export default function ResetPassword() {
             return false;
         }
 
-        form_data['email'] = email;
+        form_data['token'] = password_reset_token;
         form_data['password'] = password;
         // form_data['password_confirmation'] = passwordConfirmation
         
