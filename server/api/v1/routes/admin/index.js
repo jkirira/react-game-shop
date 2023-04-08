@@ -3,6 +3,7 @@ import authMiddleware from '../../middleware/authMiddleware.js';
 import isAdminMiddleware from '../../middleware/isAdminMiddleware.js';
 import categoriesRouter from './categories.js';
 import gamesRouter from './games.js';
+import profileRouter from './profile.js';
 import { login, forgotPassword, confirmPasswordReset, passwordReset, authUser } from '../../controllers/admin/authController.js';
 import { dashboardInfo } from '../../controllers/admin/dashboardController.js';
 
@@ -23,5 +24,7 @@ router.use('/dashboard', authMiddleware, isAdminMiddleware, dashboardInfo);
 router.use('/games', authMiddleware, isAdminMiddleware, gamesRouter);
 
 router.use('/categories', authMiddleware, isAdminMiddleware, categoriesRouter);
+
+router.use('/profile', authMiddleware, isAdminMiddleware, profileRouter);
 
 export default router;

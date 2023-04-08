@@ -12,6 +12,7 @@ import Games from '../../pages/admin/games/Games'
 import ViewGame from '../../pages/admin/games/ViewGame'
 import AddGame from '../../pages/admin/games/AddGame'
 import EditGame from '../../pages/admin/games/EditGame'
+import AdminProfile from '../../pages/admin/profile/Profile'
 
 const routes = [
     {
@@ -69,6 +70,10 @@ const routes = [
             },
         ]
     },
+    {
+        path: paths.ADMIN_PROFILE,
+        element: <AdminProfile />,
+    }
 ]
 
 export default routes;

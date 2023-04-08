@@ -10,6 +10,7 @@ const paths = {
     ADMIN_GAMES_CREATE: '/admin/games/create',
     ADMIN_GAMES_VIEW: '/admin/games/:gameId',
     ADMIN_GAMES_EDIT: '/admin/games/:gameId/edit',
+    ADMIN_PROFILE: '/admin/profile',
 }
 
 const requireNoAuthPaths = [
