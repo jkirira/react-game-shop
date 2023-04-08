@@ -57,7 +57,7 @@ const forgotPassword = async function (req, res) {
     }
 
     const minutes_to_expiry = 30;
-    const passwordResetToken = getJWTToken({ email: data['email'] }, (minutes_to_expiry * 60));
+    const passwordResetToken = getJWTToken({ id: data['id'] }, (minutes_to_expiry * 60));
 
     const app_url = process.env.VITE_APP_URL;
     const password_reset_link = `${app_url}/admin/reset-password?token=${passwordResetToken}`
@@ -102,24 +102,43 @@ const confirmPasswordReset = async (req, res) => {
 
     }
 
-    let existingUser = await User.findOne({ where: { email: user_details.email } });
+    let existingUser = await User.findOne({ where: { id: user_details.id } });
 
     if(!existingUser) {
         return res.status(400).json({type: 'error', message: "Invalid Token"});
     }
 
-    return res.status(200).json({type: 'success',  message: 'Please reset your password.', email: user_details.email});
+    return res.status(200).json({type: 'success',  message: 'Please reset your password.', email: existingUser.email});
 
 }
 
 const passwordReset = async (req, res) => {
     let data = req.body;
 
-    if (!data['email'] || !data['password']) {
+    console.log('data', data);
+    if (!data['password'] || !data['token']) {
         return res.status(400).json({type: 'error',  message: 'Something went wrong. Could not reset your password.'});
     }
 
-    let user = await User.findOne({ where: { email: data['email'] } });
+    let user_details = {};
+
+    try {
+        user_details = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+
+    } catch(err) {
+        let error_message = '';
+        if(err.name == 'TokenExpiredError') {
+            error_message = 'This token has expired. Please login again.';
+        } else {
+            console.log('error', err)
+            error_message = 'Invalid token';
+        }
+        return res.status(400).json({type: 'error',  message: error_message});
+
+    }
+
+    let user = await User.findOne({ where: { id: user_details.id } });
+
     if(!user) {
         return res.status(400).json({type: 'error',  message: 'Something went wrong. Could not reset your password.'});
     }
@@ -127,15 +146,15 @@ const passwordReset = async (req, res) => {
     const hashed_password = bcrypt.hashSync(data['password'], 10);
 
     await user.update({
-        password: hashed_password,
-    })
-    .then(response => {
-        return res.status(200).json({type: 'success', message: 'Your password has been saved successfully.'});
-    })
-    .catch(error => {
-        console.log('error', error);
-        return res.status(400).json({type: 'error',  message: 'Something went wrong. Could not reset your password.'});
-    })
+                password: hashed_password,
+            })
+            .then(response => {
+                return res.status(200).json({type: 'success', message: 'Your password has been saved successfully.'});
+            })
+            .catch(error => {
+                console.log('error', error);
+                return res.status(400).json({type: 'error',  message: 'Something went wrong. Could not reset your password.'});
+            })
 
 }
 
