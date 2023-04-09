@@ -11,13 +11,18 @@ const authMiddleware = function (req, res, next) {
     }
 
     try {
-        jwt.verify(auth_token, process.env.JWT_TOKEN_SECRET);
-        next();
+        let token_data = jwt.verify(auth_token, process.env.JWT_TOKEN_SECRET);
+
+        if (token_data.id && token_data.username) {
+            next();
+        } else {
+            throw new Error('Invalid token');
+        }
 
     } catch (err) {
         let error_message = '';
         if(err.name == 'TokenExpiredError') {
-            error_message = 'This token has expired. Please login again.';
+            error_message = 'This token has expired. Please login  to continue.';
         } else {
             console.log('error', err)
             error_message = 'Invalid token';

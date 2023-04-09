@@ -2,15 +2,15 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom'
 import { paths } from '../../routes/admin/paths';
-import { categoriesSelector, fetchCategories } from '../../store/slices/categoriesSlice';
+import { fetchGames, gamesSelector } from '../../store/slices/gamesSlice';
 
-export default function CategoriesLayout() {
+export default function GamesLayout() {
     const dispatch = useDispatch();
-    const categories = useSelector(categoriesSelector);
+    const games = useSelector(gamesSelector);
 
     useEffect(() => {
-        if(!categories || categories.length < 1) {
-            dispatch(fetchCategories);
+        if(!games || games.length < 1) {
+            dispatch(fetchGames);
         }
 
     }, []);
@@ -20,7 +20,7 @@ export default function CategoriesLayout() {
             
             <section>
                 <h2>
-                    <Link className="text-decoration-none text-body" to={paths.ADMIN_CATEGORIES}>Categories</Link>
+                    <Link className="text-decoration-none text-body" to={paths.ADMIN_GAMES}>Games</Link>
                 </h2>
             </section>
 

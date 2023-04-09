@@ -10,6 +10,12 @@ export function userReducer(state=initialState, action) {
                 user: action.payload
             }
         }
+        case 'user/editUser': {
+            return {
+                ...state,
+                user: { ...state.user, ...action.payload }
+            }
+        }
         default: {
             return state
         }
@@ -26,6 +32,12 @@ export const isAdminSelector = state => state.user?.user?.isAdmin
 export const setUser = payload => {
     return {
         type: 'user/setUser',
+        payload: payload
+    }
+}
+export const editUser = payload => {
+    return {
+        type: 'user/editUser',
         payload: payload
     }
 }

@@ -34,7 +34,7 @@ const login = async function (req, res) {
     });
 
     let seconds_to_expiry = 3 * 60 * 60;
-    let token = getJWTToken({ id: client.id }, seconds_to_expiry);
+    let token = getJWTToken({ id: client.id, username: client.username }, seconds_to_expiry);
     return res.status(200).json({
         type: "success", 
         message: "Login Successful!", 
@@ -163,7 +163,7 @@ const forgotPassword = async function (req, res) {
     }
 
     const hours_to_expiry = 0.5;
-    const passwordResetToken = getJWTToken({ email: data['email'] }, (hours_to_expiry * 60 * 60));
+    const passwordResetToken = getJWTToken({ id: client.id }, (hours_to_expiry * 60 * 60));
 
     const app_url = process.env.VITE_APP_URL;
     const password_reset_link = `${app_url}/reset-password?token=${passwordResetToken}`
@@ -191,10 +191,10 @@ const confirmPasswordReset = async (req, res) => {
        return res.status(400).json({type: 'error',  message: 'A reset token must be provided.'});
     }
 
-    let client_details = {};
+    let token_details = {};
 
     try {
-        client_details = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+        token_details = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
 
     } catch(err) {
         let error_message = '';
@@ -207,24 +207,41 @@ const confirmPasswordReset = async (req, res) => {
 
     }
 
-    let existingUser = await Client.findOne({ where: { email: client_details.email } });
+    let existingClient = await Client.findOne({ where: { id: token_details.id } });
 
-    if(!existingUser) {
+    if(!existingClient) {
         return res.status(400).json({type: 'error', message: "Invalid Token"});
     }
 
-    return res.status(200).json({type: 'success',  message: 'Please reset your password.', email: client_details.email});
+    return res.status(200).json({type: 'success',  message: 'Please reset your password.', email: existingClient.email});
 
 }
 
 const passwordReset = async (req, res) => {
     let data = req.body;
 
-    if (!data['email'] || !data['password']) {
+    if (!data['token'] || !data['password']) {
         return res.status(400).json({type: 'error',  message: 'Something went wrong. Could not reset your password.'});
     }
 
-    let client = await Client.findOne({ where: { email: data['email'] } });
+    let token_details = {};
+
+    try {
+        token_details = jwt.verify(data['token'], process.env.JWT_TOKEN_SECRET);
+
+    } catch(err) {
+        let error_message = '';
+        if(err.name == 'TokenExpiredError') {
+            error_message = 'The token has expired. Please login to continue.';
+        } else {
+            console.log('error', err)
+            error_message = 'Invalid token';
+        }
+        return res.status(400).json({type: 'error', message: error_message});
+
+    }
+
+    let client = await Client.findOne({ where: { id: token_details.id } });
     if(!client) {
         return res.status(400).json({type: 'error',  message: 'Something went wrong. Could not reset your password.'});
     }
@@ -267,7 +284,7 @@ const authUser = async (req, res) => {
 
     }
 
-    let client = await Client.findOne({ where: { id: token_details.id } });
+    let client = await Client.findOne({ where: { id: token_details.id, username: token_details.username } });
     if(!client) {
         return res.status(400).json({type: 'error', message: 'Invalid token'});
     }
