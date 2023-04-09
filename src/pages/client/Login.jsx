@@ -38,7 +38,7 @@ function Login() {
     }, []);
 
     return (
-        <div className="mx-auto my-5 border border-secondary rounded p-5 d-flex flex-column w-50">
+        <div className="mx-auto my-5 border border-secondary rounded py-5 px-3 p-md-5 d-flex flex-column col-10 offset-1 col-md-6 offset-md-3">
             <section className="my-3">
                 <h3>Login</h3>
             </section>

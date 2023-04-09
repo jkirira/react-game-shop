@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import PasswordInput from "../../components/PasswordInput";
 
 import { loginApi } from "../../apis/admin/auth";
 import { toastNotify } from "../../helpers";
@@ -58,7 +59,7 @@ function Login() {
     };
 
     return (
-        <div className="mx-auto my-5 border border-secondary rounded p-5 d-flex flex-column w-50">
+        <div className="mx-auto my-5 border border-secondary rounded py-5 px-3 p-md-5 d-flex flex-column col-10 offset-1 col-md-6 offset-md-3">
             <section className="my-3">
                 <h3>Admin Login</h3>
             </section>
@@ -71,7 +72,7 @@ function Login() {
 
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="loginPasswordInput">Password</Form.Label>
-                        <Form.Control ref={passwordRef} type="password" required />
+                        <PasswordInput passwordRef={passwordRef} required />
                     </Form.Group>
 
                     <Button ref={submitButtonRef} className='mt-3' variant="primary" type="submit">

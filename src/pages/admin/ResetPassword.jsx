@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+import PasswordInput from "../../components/PasswordInput";
 
 import { toastNotify } from "../../helpers";
 import { passwordResetApi, confirmPasswordResetApi } from "../../apis/admin/auth";
@@ -86,7 +87,7 @@ export default function ResetPassword() {
     
 
     return (
-        <div className="mx-auto my-5 border border-secondary rounded p-5 d-flex flex-column w-50">
+        <div className="mx-auto my-5 border border-secondary rounded py-5 px-3 p-md-5 d-flex flex-column col-10 offset-1 col-md-6 offset-md-3">
             <section className="mt-3">
                 <h3>Reset Your Password</h3>
                 <p>Enter your new password.</p>
@@ -96,43 +97,56 @@ export default function ResetPassword() {
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="loginPasswordInput">Password</Form.Label>
-                        <Form.Control
+                        <PasswordInput
                             id="loginPasswordInput" 
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            handleOnChange={(input) => setPassword(input)}
                             isValid={password && isValidPassword()} 
                             isInvalid={password && !isValidPassword()} 
-                            type="password" 
                             aria-describedby="loginPasswordInputHelpBlock"
                             required 
                         />
-                        <Form.Text id="loginPasswordInputHelpBlock" muted>
-                            Your password must be at least 8 characters long, contain letters or numbers, and must not contain spaces, special characters, or emoji.
-                        </Form.Text>
-                        
-                        <Form.Control.Feedback type="invalid">Please provide a valid password.</Form.Control.Feedback>
+                        { 
+                            password 
+                            
+                            && 
 
+                            <>
+                                <Form.Text id="loginPasswordInputHelpBlock" muted>
+                                    Your password must be at least 8 characters long, contain letters or numbers, and must not contain spaces, special characters, or emoji.
+                                </Form.Text>
+                                
+                                <Form.Control.Feedback type="invalid">Please provide a valid password.</Form.Control.Feedback>
+                            </>
+                        }
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="loginPasswordConfirmation">Confirm Password</Form.Label>
-                        <Form.Control
+                        <PasswordInput
                             id="loginPasswordConfirmation" 
                             value={passwordConfirmation}
-                            onChange={(e) => setPasswordConfirmation(e.target.value)}
-                            isValid={password && (password === passwordConfirmation)}
-                            isInvalid={password && (password !== passwordConfirmation)}
+                            handleOnChange={(input) => setPasswordConfirmation(input)}
+                            isValid={password && passwordConfirmation && (password === passwordConfirmation)}
+                            isInvalid={password && passwordConfirmation && (password !== passwordConfirmation)}
                             disabled={!password}
-                            type="password" 
                             aria-describedby="loginPasswordConfirmationHelpBlock" 
                             required 
                         />
-                        <Form.Text id="loginPasswordConfirmationHelpBlock" muted>
-                            Please confirm your password.
-                        </Form.Text>
-                        <Form.Control.Feedback type="invalid">
-                            Passwords do not match.
-                        </Form.Control.Feedback>
+                        { 
+                            password 
+                            
+                            && 
+
+                            <>
+                                <Form.Text id="loginPasswordConfirmationHelpBlock" muted>
+                                    Please confirm your password.
+                                </Form.Text>
+                                <Form.Control.Feedback type="invalid">
+                                    Passwords do not match.
+                                </Form.Control.Feedback>
+                            </>
+                        }
                     </Form.Group>
 
                     <Button ref={submitButtonRef} className='my-5' variant="primary" type="submit">

@@ -34,7 +34,7 @@ function ForgotPassword() {
 
 
     return (
-        <div className="mx-auto my-5 border border-secondary rounded p-5 d-flex flex-column w-50">
+        <div className="mx-auto my-5 border border-secondary rounded py-5 px-3 p-md-5 d-flex flex-column col-10 offset-1 col-md-6 offset-md-3">
             <section className="my-3">
                 <h3 className="my-3">Reset Your Password</h3>
                 <p>Enter your email address and we will send you a password reset link to your email. </p>

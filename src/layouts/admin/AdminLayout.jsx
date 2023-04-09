@@ -121,7 +121,7 @@ export default function AdminLayout() {
         
         &&  
         
-        <div>
+        <div className='row'>
             <Outlet />
         </div>
 

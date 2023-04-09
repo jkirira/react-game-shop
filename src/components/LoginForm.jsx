@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { paths } from '../routes/client/paths';
+import PasswordInput from './PasswordInput';
 
 function LoginForm({type, handleFormSubmit, disabled}) {
 
@@ -51,10 +52,9 @@ function LoginForm({type, handleFormSubmit, disabled}) {
 
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor="loginPasswordInput">Password</Form.Label>
-                            <Form.Control
+                            <PasswordInput
                                 id="loginPasswordInput" 
-                                ref={passwordRef}
-                                type="password" 
+                                passwordRef={passwordRef}
                                 required 
                             />
                         </Form.Group>

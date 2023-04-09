@@ -4,6 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import { toastNotifyError, toastNotifySuccess } from "../../../helpers";
 import { authTokenSelector } from "../../../store/slices/authSlice";
 import { passwordResetApi } from "../../../apis/admin/auth";
+import PasswordInput from "../../PasswordInput";
 
 const passwordRegex = new RegExp(/^[a-z0-9]+$/i);
 
@@ -62,13 +63,12 @@ export default function ChangePassword() {
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor="loginPasswordInput">Password</Form.Label>
-                            <Form.Control
+                            <PasswordInput
                                 id="loginPasswordInput" 
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                handleOnChange={(input) => setPassword(input)}
                                 isValid={password && isValidPassword()} 
                                 isInvalid={password && !isValidPassword()} 
-                                type="password" 
                                 aria-describedby="loginPasswordInputHelpBlock"
                                 required 
                             />
@@ -89,14 +89,13 @@ export default function ChangePassword() {
 
                         <Form.Group className="mb-3">
                             <Form.Label htmlFor="loginPasswordConfirmation">Confirm Password</Form.Label>
-                            <Form.Control
+                            <PasswordInput
                                 id="loginPasswordConfirmation" 
                                 value={passwordConfirmation}
-                                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                                handleOnChange={(input) => setPasswordConfirmation(input)}
                                 isValid={password && passwordConfirmation && (password === passwordConfirmation)}
                                 isInvalid={password && passwordConfirmation && (password !== passwordConfirmation)}
                                 disabled={!password}
-                                type="password" 
                                 aria-describedby="loginPasswordConfirmationHelpBlock" 
                                 required 
                             />
