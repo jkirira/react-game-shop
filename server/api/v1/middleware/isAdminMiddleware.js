@@ -11,10 +11,10 @@ const isAdminMiddleware = async function (req, res, next) {
         return res.status(401).json({type: 'error',  message: 'Unauthenticated'});
     }
 
-    let user_data = null;
+    let token_data = null;
 
     try {
-        user_data = jwt.verify(auth_token, process.env.JWT_TOKEN_SECRET);
+        token_data = jwt.verify(auth_token, process.env.JWT_TOKEN_SECRET);
 
     } catch (err) {
         if(err.name == 'TokenExpiredError') {
@@ -28,8 +28,8 @@ const isAdminMiddleware = async function (req, res, next) {
 
     }
 
-    if (user_data){
-        let user =  await User.findOne({ where: { id: user_data.id } })
+    if (token_data.id && token_data.username) {
+        let user =  await User.findOne({ where: { id: token_data.id, username: token_data.username } })
 
         if(user.isAdmin){
             next();

@@ -34,7 +34,7 @@ const login = async function (req, res) {
     });
 
     let seconds_to_expiry = 3 * 60 * 60;
-    let token = getJWTToken({ id: user.id }, seconds_to_expiry);
+    let token = getJWTToken({ id: user.id, username: user.username }, seconds_to_expiry);
     return res.status(200).json({
         type: "success", 
         message: "Login Successful!", 
@@ -181,7 +181,7 @@ const authUser = async (req, res) => {
 
     }
 
-    let user = await User.findOne({ where: { id: token_details.id } });
+    let user = await User.findOne({ where: { id: token_details.id, username: token_details.username } });
     if(!user) {
         return res.status(400).json({type: 'error', message: 'Invalid token'});
     }
