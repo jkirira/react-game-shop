@@ -123,7 +123,7 @@ const passwordReset = async (req, res) => {
     let user_details = {};
 
     try {
-        user_details = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+        user_details = jwt.verify(data['token'], process.env.JWT_TOKEN_SECRET);
 
     } catch(err) {
         let error_message = '';

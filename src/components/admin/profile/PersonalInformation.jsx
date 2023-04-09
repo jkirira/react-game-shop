@@ -55,7 +55,7 @@ export default function PersonalInformation() {
                 <div className="d-flex justify-content-end">
                     <Button onClick={() => setEditing(editing => !editing)} 
                             size="sm"
-                            variant={ editing ? 'secondary' : 'primary' }
+                            variant={ editing ? 'danger' : 'primary' }
                     >
                         { editing ? 'Cancel' : 'Edit' }
                     </Button>
@@ -70,27 +70,27 @@ export default function PersonalInformation() {
                         <div>
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group className="mb-2" controlId="usernameInput">
-                                    <Form.Label>Username</Form.Label>
+                                    <Form.Label className="fw-bold">Username</Form.Label>
                                     <Form.Control className="mt-0" plaintext readOnly defaultValue={user.username} type="text" />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="firstNameInput">
-                                    <Form.Label>First Name</Form.Label>
+                                    <Form.Label className="fw-bold">First Name</Form.Label>
                                     <Form.Control className="mt-0" ref={firstNameRef} defaultValue={user.first_name} type="text" />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="lastNameInput">
-                                    <Form.Label>Last Name</Form.Label>
+                                    <Form.Label className="fw-bold">Last Name</Form.Label>
                                     <Form.Control className="mt-0" ref={lastNameRef} defaultValue={user.last_name} type="text" />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="emailInput">
-                                    <Form.Label>Email</Form.Label>
+                                    <Form.Label className="fw-bold">Email</Form.Label>
                                     <Form.Control className="mt-0" ref={emailRef} defaultValue={user.email} type="email" />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="phoneNumberInput">
-                                    <Form.Label>Phone Number</Form.Label>
+                                    <Form.Label className="fw-bold">Phone Number</Form.Label>
                                     <Form.Control className="mt-0" ref={phoneNumberRef} defaultValue={user.phone_number} min={0} type="number" />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="genderInput">
-                                    <Form.Label>Gender</Form.Label>
+                                    <Form.Label className="fw-bold">Gender</Form.Label>
                                     <Form.Select ref={genderRef} defaultValue={user.gender}>
                                         <option value="">Select an option</option>
                                         <option value="male">Male</option>
@@ -98,7 +98,7 @@ export default function PersonalInformation() {
                                     </Form.Select>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="physicalAddressInput">
-                                    <Form.Label>Physical Address</Form.Label>
+                                    <Form.Label className="fw-bold">Physical Address</Form.Label>
                                     <Form.Control className="mt-0" ref={physicalAddressRef} defaultValue={user.physical_address} as="textarea" rows={3} />
                                 </Form.Group>
                                 
