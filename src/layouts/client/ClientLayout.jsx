@@ -63,7 +63,7 @@ export default function ClientLayout() {
                 } else if(pathRequiresAuth) {
                     toastNotify('Please log in to continue', { type: 'error' });
                     dispatch(loggedOut());
-                    navigate(paths.LOGIN);
+                    navigate(paths.LOGIN, { state: { from: location } });
                     return;
 
                 } else if (openPath) {
@@ -101,7 +101,7 @@ export default function ClientLayout() {
                 if (isAdmin || !isLoggedIn) {
                     toastNotify('You are not authorized to perform that action.', { type: 'error' });
                     dispatch(loggedOut());
-                    navigate(paths.LOGIN);
+                    navigate(paths.LOGIN, { state: { from: location } });
                     return;
 
                 } else if (!isAdmin && isLoggedIn) {
