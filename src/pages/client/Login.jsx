@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { loginApi } from "../../apis/client/auth";
 import LoginForm from "../../components/LoginForm";
 import { toastNotify } from "../../helpers";
@@ -12,6 +12,7 @@ import { paths } from "../../routes/client/paths";
 function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
     const [loading, setLoading] = useState(false);
 
     const handleLoginSubmit = useCallback((formdata) => {
@@ -27,7 +28,9 @@ function Login() {
                     token: data['token'],
                     id: data['user'] ? data['user']['id'] : null,
                 }));
-                navigate(paths.HOME);
+
+                let navigateTo = location.state?.from?.pathname || paths.HOME;
+                navigate(navigateTo);
             })
             .catch(error => {
                 console.log(error)
