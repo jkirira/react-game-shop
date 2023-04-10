@@ -43,7 +43,7 @@ export default function ClientLayout() {
                     .catch(error => {
                         toastNotify(error.response.data.message, { type: 'error' });
                         dispatch(loggedOut());
-                        navigate(paths.LOGIN);
+                        // navigate(paths.LOGIN);
                     });
         }
 
