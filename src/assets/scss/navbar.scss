@@ -1,0 +1,64 @@
+.nav-bar {
+    display: none;
+    min-width: 200px;
+
+    @media screen and (max-width: 768px) {
+        &[data-toggle-menu="show"] {
+            display: flex;
+            flex-direction: column-reverse;
+            position: absolute;
+            background-color: #000;
+            top: 100%;
+            right: 0;
+        }
+
+        .dropdown .dropdown-menu.show {
+            position: relative !important;
+            transform: none !important;
+        }
+
+    }
+
+    @media screen and (min-width: 768px) {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        height: 100%;   
+    }
+
+    .nav-list-wrapper {
+        display: flex;
+        align-items: center;
+
+        .nav-list {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            margin: 0;
+            width: 100%;
+            padding: 0;
+
+            @media screen and (min-width: 768px) {
+                flex-direction: row;
+            }
+
+
+            .nav-list-item {
+                padding: 1.5rem 1rem;
+                text-decoration: none;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                @media screen and (min-width: 768px) {
+                    // padding: 0 3rem;
+                }
+
+            }
+
+        }
+
+    }
+
+}
