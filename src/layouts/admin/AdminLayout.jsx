@@ -49,7 +49,7 @@ export default function AdminLayout() {
                     .catch(error => {
                         toastNotifyError(error.response.data.message);
                         dispatch(loggedOut());
-                        navigate(paths.ADMIN_LOGIN, { state: { from: location } });
+                        // navigate(paths.ADMIN_LOGIN, { state: { from: location } });
                     });
         }
 
