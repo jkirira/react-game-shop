@@ -50,7 +50,7 @@ function DeleteCategoryModal({ showModal, closeModal, categoryId }) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => closeModal()}>Close</Button>
-                <Button disabled={loading} variant="primary" onClick={() => handleDeleteCategory()}>Delete</Button>
+                <Button disabled={loading} variant="danger" onClick={() => handleDeleteCategory()}>Delete</Button>
             </Modal.Footer>
         </Modal>
       );

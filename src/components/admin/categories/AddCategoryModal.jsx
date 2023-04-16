@@ -31,8 +31,9 @@ function AddCategoryModal({ showModal, closeModal }) {
             .catch(error => {
                 console.log(error);
                 toastNotifyError(error.response.data.message);
+            })
+            .then(() => {
                 setLoading(false);
-
             })
     }
 
