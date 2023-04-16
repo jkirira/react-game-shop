@@ -8,6 +8,7 @@ import { paths, requireNoAuthPaths } from '../../routes/admin/paths';
 import { loggedIn, loggedOut, isLoggedInSelector } from '../../store/slices/authSlice';
 import { setUser, userSelector, isAdminSelector } from '../../store/slices/userSlice';
 
+import Navbar from '../../components/admin/Navbar';
 
 export default function AdminLayout() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -121,9 +122,15 @@ export default function AdminLayout() {
         
         &&  
         
-        <div className='row'>
-            <Outlet />
-        </div>
+        <>
+
+            <Navbar />
+
+            <div className='row'>
+                <Outlet />
+            </div>
+
+        </>
 
     );
 }

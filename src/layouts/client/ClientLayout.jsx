@@ -8,6 +8,8 @@ import { paths, requireAuthPaths, requireNoAuthPaths } from '../../routes/client
 import { loggedIn, loggedOut, isLoggedInSelector } from '../../store/slices/authSlice';
 import { setUser, userSelector, isAdminSelector } from '../../store/slices/userSlice';
 
+import Navbar from '../../components/client/Navbar';
+
 export default function ClientLayout() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -127,9 +129,15 @@ export default function ClientLayout() {
         
         &&  
         
-        <div className="row">
-            <Outlet />
-        </div>
+        <>
+
+            <Navbar />
+
+            <div className="row">
+                <Outlet />
+            </div>
+
+        </>
 
     );
 }
