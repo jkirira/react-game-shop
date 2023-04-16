@@ -79,7 +79,7 @@ export default function GameForm({handleFormSubmit, game=null, disabled=false}) 
                 <Form.Group className="mb-3" controlId="category">
                     <Form.Label>Category</Form.Label>
                     <Form.Select name="category" defaultValue={game?.category_id ?? undefined} ref={categoryIdRef} aria-label="Category" required >
-                        <option>Pick a category</option>
+                        <option key="placeholder" value="">Pick a category</option>
                         {
                             categories.map(category => <option key={category.id} value={category.id}>{ category.name }</option>)
                         }

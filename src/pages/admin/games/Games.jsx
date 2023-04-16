@@ -60,21 +60,21 @@ export default function Games() {
                     <tbody>
                     {
                         games.map(game => (
-                                <tr onClick={() => navigate(generatePath(paths.ADMIN_GAMES_VIEW, {gameId: game.id}))}
-                                    key={ game.id }
+                                <tr onClick={() => navigate(generatePath(paths.ADMIN_GAMES_VIEW, {gameId: game?.id}))}
+                                    key={ game?.id }
                                     className="cursor-pointer"
                                 >
-                                    <td>{ game.id }</td>
-                                    <td>{ game.name }</td>
-                                    <td>{ game.description }</td>
-                                    <td>{ game.Category?.name }</td>
-                                    <td>{ game.quantity }</td>
-                                    <td>{ game.price }</td>
-                                    <td>{ game.rating }</td>
-                                    <td>{ game.developed_by }</td>
+                                    <td>{ game?.id }</td>
+                                    <td>{ game?.name }</td>
+                                    <td>{ game?.description }</td>
+                                    <td>{ game?.Category?.name }</td>
+                                    <td>{ game?.quantity }</td>
+                                    <td>{ game?.price }</td>
+                                    <td>{ game?.rating }</td>
+                                    <td>{ game?.developed_by }</td>
                                     <td>
-                                        <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faPenToSquare} onClick={(e) => redirectToEdit(game.id, e)} />
-                                        <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faTrashCan} onClick={(e) => openDeleteModal(game.id, e)} />
+                                        <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faPenToSquare} onClick={(e) => redirectToEdit(game?.id, e)} />
+                                        <FontAwesomeIcon className="text-danger me-3 cursor-pointer" icon={faTrashCan} onClick={(e) => openDeleteModal(game?.id, e)} />
                                     </td>
                                 </tr>
                             )

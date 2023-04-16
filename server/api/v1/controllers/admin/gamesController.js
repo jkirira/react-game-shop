@@ -14,7 +14,8 @@ export const addGame = async (req, res) => {
                     return res.status(200).json({type: 'success', message: "Game created successfully!", game: game});
                 })
                 .catch(error => {
-                    return res.status(200).json({type: 'error', message: "Something went wrong could not create record."});
+                    console.log('err', error);
+                    return res.status(500).json({type: 'error', message: "Something went wrong could not create record."});
                 });
 }
 

@@ -80,7 +80,7 @@ export default function Categories() {
                                             <td>{ format(parseISO(category.createdAt), 'yyyy-MM-dd') }</td>
                                             <td>
                                                 <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faPenToSquare} onClick={(e) => openEditModal(category.id, e)} />
-                                                <FontAwesomeIcon className="text-primary me-3 cursor-pointer" icon={faTrashCan} onClick={(e) => openDeleteModal(category.id, e)} />
+                                                <FontAwesomeIcon className="text-danger me-3 cursor-pointer" icon={faTrashCan} onClick={(e) => openDeleteModal(category.id, e)} />
                                             </td>
                                         
                                         </tr>

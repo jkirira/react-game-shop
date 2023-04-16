@@ -50,7 +50,7 @@ function DeleteGameModal({ showModal, closeModal, gameId }) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => closeModal()}>Close</Button>
-                <Button disabled={loading} variant="primary" onClick={() => handleDeleteGame()}>Delete</Button>
+                <Button disabled={loading} variant="danger" onClick={() => handleDeleteGame()}>Delete</Button>
             </Modal.Footer>
         </Modal>
       );
