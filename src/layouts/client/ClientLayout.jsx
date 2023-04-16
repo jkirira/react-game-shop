@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import { getFromLocalStorage, toastNotify } from '../../helpers';
+import { getFromLocalStorage, toastNotify, toastNotifySuccess } from '../../helpers';
 import { authUserApi } from '../../apis/client/auth';
 import { paths, requireAuthPaths, requireNoAuthPaths } from '../../routes/client/paths';
 import { loggedIn, loggedOut, isLoggedInSelector } from '../../store/slices/authSlice';
@@ -27,6 +27,13 @@ export default function ClientLayout() {
         let pathRequiresAuth = requireAuthPaths.includes(location.pathname);
         let openPath = !pathRequiresAuth && !pathRequiresNoAuth;
 
+        if(location.pathname == paths.LOGOUT) {
+            dispatch(loggedOut());
+            dispatch(setUser(null));
+            toastNotifySuccess('Logged out successfully!');
+            navigate(paths.LOGIN);
+            return;
+        }
 
         async function fetchAuthUser(token) {
             if(!token) {
