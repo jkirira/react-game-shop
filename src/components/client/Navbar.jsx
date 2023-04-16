@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
@@ -11,7 +11,7 @@ import { isLoggedInSelector } from '../../store/slices/authSlice';
 import "../../assets/scss/navbar.scss"
 
 export default function Navbar() {
-    const [showDropdownNav, setShowDropdownNav] = useState(false)
+    const [showDropdownNav, setShowDropdownNav] = useState(false);
 
     const location = useLocation();
     const user = useSelector(userSelector, shallowEqual);
@@ -63,7 +63,7 @@ export default function Navbar() {
 
                             <Dropdown.Menu className="rounded-0">
                                 <Dropdown.Item className="d-flex align-items-center justify-content-center py-2" href="#">Profile</Dropdown.Item>
-                                <Dropdown.Item className="d-flex align-items-center justify-content-center py-2 text-danger" href="#">Logout</Dropdown.Item>
+                                <Dropdown.Item className="d-flex align-items-center justify-content-center py-2 text-danger" href={paths.LOGOUT}>Logout</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
 

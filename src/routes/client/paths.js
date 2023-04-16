@@ -5,10 +5,11 @@ const paths = {
     FORGOT_PASSWORD: '/forgot-password',
     RESET_PASSWORD: '/reset-password',
     CONFIRM_EMAIL: '/confirm-email',
-}
+    LOGOUT: '/logout',
+};
 
 const requireAuthPaths = [
-
+    paths.LOGOUT,
 ];
 
 const requireNoAuthPaths = [
@@ -17,10 +18,10 @@ const requireNoAuthPaths = [
     paths.FORGOT_PASSWORD,
     paths.RESET_PASSWORD,
     paths.CONFIRM_EMAIL,
-]
+];
 
 export {
     paths,
     requireAuthPaths,
     requireNoAuthPaths,
-}
+};

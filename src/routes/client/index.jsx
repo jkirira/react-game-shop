@@ -32,6 +32,9 @@ const routes = [
         path: paths.RESET_PASSWORD,
         element: <ResetPassword />
     },
+    {
+        path: paths.LOGOUT,
+    },
 ]
 
 export default routes;
