@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+    app:
+        build:
+            context: ./
+        container_name: 'react_game_shop'
+        ports:
+            - '5173:5173'
+            - '5000:5000'
+        volumes:
+            - './:/react-game-shop'
+        networks:
+            - 'react-game-shop'
+    db:
+        image: mysql:5.7
+        container_name: 'game_shop_db'
+        restart: unless-stopped
+        # environment:
+        #     MYSQL_DATABASE: "${MYSQL_DATABASE}"
+        #     MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+        #     MYSQL_USER: "${MYSQL_USER}"
+        #     MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+        # Values set in the shell environment override those set when using the env-file argument
+        env_file:
+            - './docker/.env'
+        ports:
+            - '3306:3306'
+        volumes:
+            - 'mysql5.7:/var/lib/mysql'
+        networks:
+            - 'react-game-shop'
+
+networks:
+    react-game-shop:
+
+volumes:
+    mysql5.7:

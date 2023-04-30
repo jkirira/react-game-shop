@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite --host\" \"npm run server\"",
     "build": "vite build",
     "preview": "vite preview",
     "server": "nodemon ./server/index.js"
@@ -37,14 +37,15 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
     "reselect": "^4.1.7",
-    "sass": "^1.58.1",
     "sequelize": "^6.28.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
+    "concurrently": "^8.0.1",
     "nodemon": "^2.0.20",
+    "sass": "^1.62.1",
     "vite": "^4.1.0"
   }
 }
