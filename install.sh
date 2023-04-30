@@ -7,6 +7,13 @@
 # MYSQL_DATABASE=game_shop
 # MYSQL_ROOT_PASSWORD=root
 
+if [ ! -f ./docker/.env ]; then
+    echo "\nfile not found... \"$(pwd)/docker/.env\" \n"
+    echo "Please set environment variables in \"$(pwd)/docker/.env\""
+    echo "See \"$(pwd)/docker/.env.example\" \n"
+    exit 1
+fi
+
 source ./docker/.env
 
 BUILDKIT_PROGRESS=plain
@@ -19,5 +26,5 @@ echo "Starting installation... \\n" \
 && docker compose -p ${COMPOSE_PROJECT_NAME} \
                   exec -T \
                   db \
-                  mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} < docker/db/db.sql \
-&& echo "Installation complete :)  \\n"
+                  mysql -uroot -p${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} < docker/db/db.sql \
+&& echo "\\nInstallation complete :)  \\n"
