@@ -11,5 +11,5 @@ fi
 source ./docker/.env
 
 echo "Please wait while service is being destroyed..." \
-    && docker compose -p ${COMPOSE_PROJECT_NAME} down \
+    && docker compose down \
     && echo "All done"

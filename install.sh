@@ -20,11 +20,11 @@ BUILDKIT_PROGRESS=plain
 
 echo "Starting installation... \\n" \
 && echo "Starting project... \\n" \
-&& docker compose -p ${COMPOSE_PROJECT_NAME} \
-                  -f ./docker-compose.yml \
+&& docker compose -f ./docker-compose.yml \
                   up -d --no-recreate \
-&& docker compose -p ${COMPOSE_PROJECT_NAME} \
-                  exec -T \
+&& echo "\\nSetting up the database... \\n" \
+&& sleep 10 \
+&& docker compose exec -T \
                   db \
                   mysql -uroot -p${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} < docker/db/db.sql \
 && echo "\\nInstallation complete :)  \\n"
