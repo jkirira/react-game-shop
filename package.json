@@ -7,6 +7,7 @@
     "dev": "concurrently \"vite --host\" \"npm run server\"",
     "build": "vite build",
     "preview": "vite preview",
+    "seeder": "node ./server/database/seeder.js",
     "server": "nodemon ./server/index.js"
   },
   "dependencies": {
