@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `games` (
   `poster` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_games_categories1_idx` (`category_id`),
   CONSTRAINT `fk_games_categories1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
