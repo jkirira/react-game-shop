@@ -10,6 +10,8 @@ services:
             - '5000:5000'
         volumes:
             - './:/react-game-shop'
+            # using named volume over anonymous to prevent recreating volume on compose up.
+            - 'node_modules:/react-game-shop/node_modules'
         networks:
             - 'react-game-shop'
     db:
@@ -36,3 +38,4 @@ networks:
 
 volumes:
     mysql5.7:
+    node_modules:
