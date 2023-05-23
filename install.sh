@@ -8,9 +8,9 @@
 # MYSQL_ROOT_PASSWORD=root
 
 if [ ! -f ./docker/.env ]; then
-    echo "\nfile not found... \"$(pwd)/docker/.env\" \n"
-    echo "Please set environment variables in \"$(pwd)/docker/.env\""
-    echo "See \"$(pwd)/docker/.env.example\" \n"
+    printf "\nfile not found... \"$(pwd)/docker/.env\" \n"
+    printf "Please set environment variables in \"$(pwd)/docker/.env\""
+    printf "See \"$(pwd)/docker/.env.example\" \n"
     exit 1
 fi
 
@@ -18,13 +18,13 @@ source ./docker/.env
 
 BUILDKIT_PROGRESS=plain
 
-echo "Starting installation... \\n" \
-&& echo "Starting project... \\n" \
+printf "Starting installation... \n" \
+&& printf "Starting project... \n" \
 && docker compose -f ./docker-compose.yml \
                   up -d --no-recreate \
-&& echo "\\nSetting up the database... \\n" \
+&& printf "\nSetting up the database... \n" \
 && sleep 10 \
 && docker compose exec -T \
                   db \
                   mysql -uroot -p${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} < docker/db/db.sql \
-&& echo "\\nInstallation complete :)  \\n"
+&& printf "\nInstallation complete :)  \n"
