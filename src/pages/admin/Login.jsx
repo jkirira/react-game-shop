@@ -47,7 +47,7 @@ function Login() {
             })
             .catch(error => {
                 console.log(error);
-                toastNotify(error.response.data.message, { type: error.response.data.type });
+                toastNotify(error.response?.data?.message, { type: error.response?.data?.type });
             })
             .then(() => {
                 if (submitButtonRef.current){
