@@ -1,0 +1,137 @@
+@import "variables";
+
+$sidebar_transition: width 3s linear;
+
+// @mixin hide-text {
+//     text-indent: -9999px;
+//     font-size: 0px;
+// }
+
+// @mixin sidebar-orientation {
+//     &.right {
+//         justify-self: flex-end;
+//     }
+//
+//     &.left {
+//         justify-self: flex-start;
+//     }
+// }
+
+
+// @mixin left-right($left, $right) {
+//     &.right {
+//         right: $right;
+//     }
+//
+//     &.left {
+//         left: $left;
+//     }
+// }
+
+
+@mixin compact-sidebar-rules {
+    position: relative;
+    height: auto;
+    z-index: unset;
+
+    .sidebar {
+        width: 100%;
+
+        // .sidebar-close-icon-wrapper {
+        //     display: flex;
+        //     width: 100%;
+        //     @include left-right(10%, 10%);
+        //
+        //     .sidebar-close-icon {
+        //         margin-left: auto;
+        //         cursor: pointer;
+        //     }
+        //
+        // } 
+    }
+
+    &[data-sidebar-toggle=show] {
+        width: 40%;
+    }
+
+}
+
+
+@mixin full-width-sidebar-rules {
+    position: absolute;
+    height: 100%;
+    z-index: 99;
+
+    .sidebar {
+        width: 70%;
+
+        // .sidebar-close-icon-wrapper {
+        //     position: absolute;
+        //     top: 5%;
+        //     border-radius: 50%;
+        //     cursor: pointer;
+        //     height: 150px;
+        //     width: 150px;
+        //     display: flex;
+        //     align-items: center;
+        //     justify-content: center;
+        //     @include left-right(10%, 10%);
+        // }
+    }
+
+    &[data-sidebar-toggle=show] {
+        width: 100%;
+    }
+
+    &.right {
+        right: 0;
+    }
+
+    &.left {
+        left: 0;
+    }
+
+}
+
+
+.sidebar-wrapper {
+    width: 0;
+    transition: $sidebar_transition;
+    background-color: rgba(0,0,0,0.4);
+    overflow: hidden;
+    display: flex;
+    @include full-width-sidebar-rules;
+
+    .sidebar {
+        height: 100%;
+        background-color: $white;
+        overflow: hidden;
+        white-space: nowrap;
+
+        &.right {
+            margin-left: auto;
+        }
+    
+        &.left {
+            margin-right: auto;
+        }
+
+    }
+
+
+    &.full {
+        @include full-width-sidebar-rules;
+    }
+
+
+
+    // @media screen and (min-width: 568px) {
+    //     @include compact-sidebar-rules;
+    //
+    //     &.full {
+    //         @include full-width-sidebar-rules;
+    //     }
+    //
+    // }
+
+}

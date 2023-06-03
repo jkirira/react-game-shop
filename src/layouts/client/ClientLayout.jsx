@@ -140,7 +140,7 @@ export default function ClientLayout() {
 
             <Navbar />
 
-            <div className="row">
+            <div className="">
                 <Outlet />
             </div>
 

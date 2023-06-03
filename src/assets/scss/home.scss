@@ -1,0 +1,73 @@
+@import "variables";
+
+.game-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $gray !important;
+    width: 18rem !important;
+    height: 20rem !important;
+    
+    .game-card-image {
+        width: unset;
+    }
+
+    .overlay {
+        display: none;
+        background: rgba(0,0,0,0.75);
+        color: $white;
+    }
+
+    &:hover {
+        .overlay {
+            display: unset;
+        }
+
+    }
+}
+
+.game-sidebar {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .game-sidebar-content {
+        flex-grow: 1;
+        white-space: normal;
+
+        .game-sidebar-body-title {
+            display: flex;
+            flex-direction: column;
+
+            @media screen and (min-width: 568px) {
+                flex-direction: row;
+            }
+
+            .title-section {
+                flex-shrink: 0;
+                min-width: 75%;
+            }
+
+            .rating-section {
+                flex-shrink: 0;
+                min-width: 25%;
+                display: flex;
+                align-items: center;
+                margin-top: 15%;
+                
+                p, h1 {
+                    margin: 0;
+                }
+
+                @media screen and (min-width: 568px) {
+                    flex-direction: column;
+                    margin-top: unset;
+                }
+
+            }
+
+        }
+
+    }
+
+}
